@@ -12,7 +12,10 @@ export const Assembly = {
 
     const ul = document.querySelector("ul")
 
-    const liString = LiComponent(incommingData)
+    let liString = ""
+    for(let element of incommingData){
+      liString += LiComponent(`제목 : ${element.title}, 저자 : ${element.author}`)
+    }
 
     ul.innerHTML = liString
   },
