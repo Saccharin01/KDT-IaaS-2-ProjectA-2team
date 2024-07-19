@@ -1,9 +1,5 @@
-import bookData from "./public/json/book.json"
-import  Assembly  from "./components/Assembly.js"
-
-const incommingData = bookData.json()
+import { Assembly } from "../client/components/Assembly.js"
+import KeydownEvenet from "../client/module/KeydownEvent.js"
 
 
-Assembly.tagAssembly(incommingData)
-Assembly.reactAssembly(incommingData)
-
+KeydownEvenet("Enter", "button")
