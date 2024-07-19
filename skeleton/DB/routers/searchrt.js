@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const getInstanceDB = require("../Controllers/getInstanceDB.js");
+const querystring = require('querystring');
 
 // /search 라우터 설정
 router.get('/', async (req, res) => {
-  const query = req.query.title; // 쿼리 문자열 q를 가져옴
+  const query = querystring.unescape(req.query.title) // 쿼리 문자열 q를 가져옴
 
   const db = await getInstanceDB();
   const schema = db.GetSchema("book_info");
