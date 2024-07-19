@@ -1,4 +1,4 @@
-import { UlComponent } from "./Ulcomponent.js";
+import { UlComponent } from "./UlComponent.js";
 import { LiComponent} from "./LiComponent.js";
 
 export const Assembly = {
