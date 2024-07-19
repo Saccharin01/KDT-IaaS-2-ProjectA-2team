@@ -26,12 +26,12 @@ class MongoDB {
 
   //* schema에 해당 데이터베이스 삽입.
   InsertSchema(schemaName, schemaDefinition) {
-    const { Schema, model, models } = mongoose;
+    const { Schema, model} = mongoose;
 
     const schema = new Schema(schemaDefinition);
 
-    //* 이미 존재하는 스키마가 있을 경우 기존 꺼 사용, 아닐 경우 새로 생성합니다.
-    const value = models[schemaName] || model(schemaName, schema);
+    //* 이미 존재하는 컬렉션이 있을 경우 기존 꺼 사용, 아닐 경우 새로 생성합니다.
+    const value = model(schemaName, schema, schemaName);
 
     this.schemaMap.set(schemaName, value);
   }
