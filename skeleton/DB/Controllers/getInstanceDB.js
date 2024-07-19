@@ -1,5 +1,5 @@
 // dbInstance.js
-const initializeDB = require('./instanceDB');
+const initializeDB = require('./initializeDB');
 
 let dbInstance = null;
 
