@@ -1,5 +1,5 @@
 const obj = Object.freeze({
-  book_list: {
+  book_info: {
     _id: Number,
     title: String,
     author: String,
