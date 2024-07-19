@@ -17,4 +17,4 @@ async function initializeDB() {
   return db;
 }
 
-module.exports = initializeDB();
+module.exports = initializeDB;
