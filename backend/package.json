@@ -63,6 +63,9 @@
     "collectCoverageFrom": [
       "**/*.(t|j)s"
     ],
+    "moduleNameMapper": {
+      "^@shared/(.*)$": "<rootDir>/../../shared/$1"
+    },
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
   }
