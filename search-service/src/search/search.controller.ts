@@ -5,8 +5,13 @@ import { SearchService } from './search.service';
 export class SearchController {
   constructor(private readonly searchService: SearchService) {}
 
+
+
+
+  // ? /search/books?{someQuery} = {UserInputQuery}
+  
   @Get('books')
-  getHello(@Query('somequery') query: string) {
+  SearchResult(@Query('someQuery') query: string) {
     return this.searchService.searchBooks(query);
   }
 }
