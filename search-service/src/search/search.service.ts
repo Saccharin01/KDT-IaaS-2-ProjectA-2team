@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import mongoose from "mongoose";
 import { BookSchema } from "../modules/Schema";
-import { SearchDTO } from "@shared/SearchDTO";
+import { SearchDTO, SearchResponse } from "@shared/SearchDTO";
 
 
 // todo 몽구스에서 제공하는 메서드를 이용해봐야 함.
@@ -11,7 +11,7 @@ import { SearchDTO } from "@shared/SearchDTO";
 @Injectable()
 export class SearchService{
   
-  searchBooks = async (modelName: string, query: string): Promise<any> => {
+  searchBooks = async (modelName: string, query: string): Promise<SearchResponse> => {
     const model = mongoose.model(modelName, BookSchema, modelName);
     const searchRegex = new RegExp(query, 'i'); // 대소문자 구분 없이 검색
     
