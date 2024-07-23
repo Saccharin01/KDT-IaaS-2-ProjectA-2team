@@ -1,16 +1,18 @@
+import { Document } from "mongoose";
+
 export interface SearchDTO {
   query : string
 }
 
 
-export interface BookDTO {
+export interface BookDTO extends Document {
     id : number;
     title : string;
-    author : string;
+    author? : string;
     price: number;
-    genre : string;
-    publisher : string;
-    explanation : string;
+    genre? : string;
+    publisher? : string;
+    explanation? : string;
     stock : number;
 }
 
