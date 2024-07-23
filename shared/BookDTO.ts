@@ -1,4 +1,4 @@
-interface BookDTO{
+export interface BookDTO{
   _id : number;
   title : string;
   author : string;
