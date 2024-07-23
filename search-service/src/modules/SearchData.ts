@@ -15,9 +15,10 @@ import { Injectable } from "@nestjs/common"
  * 서치, 즉.. 찾는다는 서비스를 위해서 필요한 몽구스의 기능은. 보통 Find()에서 정의할 수 있다.
  * 많은 부분을 구현하려고 하지 말고 Search에 필요한 부분만 취사선택 해서 숏 스코프로 치고 나갈 수 있도록 조합해야 한다.
  */
-@Injectable()
+
 export class Mongoose{
-  constructor(){}
+  constructor(url : string){
+  }
   connect(){}
   findMany(){}
   insertMany(){}
