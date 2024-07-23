@@ -1,5 +1,6 @@
 import mongoose from "mongoose"
 import { Injectable } from "@nestjs/common"
+import { BookSchema } from "./Schema"
 
 
 /**
@@ -16,10 +17,13 @@ import { Injectable } from "@nestjs/common"
  * 많은 부분을 구현하려고 하지 말고 Search에 필요한 부분만 취사선택 해서 숏 스코프로 치고 나갈 수 있도록 조합해야 한다.
  */
 
-export class Mongoose{
-  constructor(url : string){
-  }
-  connect(){}
-  findMany(){}
-  insertMany(){}
-}
+
+const url = "http://localhost:27017/"
+
+
+mongoose.connect(url)
+.then(()=>{console.log("connected to DB")})
+.catch((err)=>{console.error(`connection Fail : ${err}`)})
+
+const model = mongoose.model()
+
