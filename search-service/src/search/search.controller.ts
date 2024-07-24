@@ -14,6 +14,8 @@ export class SearchController {
   @Get('books')
   Result(@Query('title') query: string) {
     this.searchService.searchBooks(query)
-    .then(data => data)
+    .then(data => {
+      console.log(data)
+      return data})
   }
 }
