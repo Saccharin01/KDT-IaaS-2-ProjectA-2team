@@ -6,7 +6,7 @@ export interface SearchDTO {
 
 
 export interface BookDTO extends Document {
-    id : number;
+    _id : number;
     title : string;
     author? : string;
     price: number;
