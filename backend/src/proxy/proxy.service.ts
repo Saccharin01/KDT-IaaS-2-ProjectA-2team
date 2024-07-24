@@ -1,12 +1,10 @@
-import { Injectable, HttpException, HttpStatus, Logger } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { AxiosResponse, AxiosError } from 'axios';
 import { catchError, firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class ProxyService {
-  private logger = new Logger(ProxyService.name);
-
   constructor(private readonly httpService: HttpService) {}
 
   //* GET 요청을 처리하는 메서드
@@ -16,7 +14,7 @@ export class ProxyService {
       this.httpService.get(url, { headers }).pipe(
         //* 에러처리
         catchError((error: AxiosError) => {
-          this.logger.error(error.response.data);
+          //this.logger.error(error.response.data);
           throw new HttpException(
             error.response?.data || 'An error happened!',
             error.response?.status || HttpStatus.INTERNAL_SERVER_ERROR,
@@ -37,7 +35,7 @@ export class ProxyService {
       this.httpService.post(url, data, { headers }).pipe(
         //* 에러처리
         catchError((error: AxiosError) => {
-          this.logger.error(error.response.data);
+          //this.logger.error(error.response.data);
           throw new HttpException(
             error.response?.data || 'An error happened!',
             error.response?.status || HttpStatus.INTERNAL_SERVER_ERROR,
