@@ -1,10 +1,9 @@
 import mongoose from 'mongoose'
 import { BookSchema } from './Schema'
-import * as dotEnv from 'dotEnv'
+import * as dotenv from "dotenv"
 
-
-dotEnv.config()
+dotenv.config()
 const name = process.env.MODEL_NAME
 
 
-export const BookModel = mongoose.model(name,BookSchema,name)
+export const BookModel = mongoose.model(name,BookSchema)
