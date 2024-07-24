@@ -1,13 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AppModule } from '../app.module';
-import { ConfigService } from '@nestjs/config';
+import { configOptions } from '@shared/config/env.config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 describe('환경변수 제대로 읽어오는지 테스트를 시작합니다.', () => {
   let configService: ConfigService;
 
   beforeEach(async () => {
     const moduleRef: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
+      imports: [ConfigModule.forRoot(configOptions)],
     }).compile();
 
     configService = moduleRef.get<ConfigService>(ConfigService);
