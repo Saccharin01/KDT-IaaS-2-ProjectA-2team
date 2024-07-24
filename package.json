@@ -5,7 +5,8 @@
   "main": "index.js",
   "workspaces": [
     "frontend",
-    "backend"
+    "backend",
+    "db"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,12 +15,16 @@
   "license": "ISC",
   "devDependencies": {
     "lerna": "^8.1.6",
+    "tsc-alias": "^1.8.10",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.5.3"
   },
   "dependencies": {
+    "@nestjs/config": "^3.2.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "joi": "^17.13.3",
     "mongoose": "^8.5.1"
   }
 }
