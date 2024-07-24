@@ -6,7 +6,8 @@
   "workspaces": [
     "frontend",
     "backend",
-    "db"
+    "db",
+    "auth_service"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
