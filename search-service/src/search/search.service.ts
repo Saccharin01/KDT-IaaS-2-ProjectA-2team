@@ -2,7 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { SearchResponse, BookDTO } from '@shared/SearchDTO';
 import { Model } from 'mongoose';
-
+/**
+ * search 컨트롤러에서 라우팅 된 메서드의 비즈니스 로직을 정의하는 서비스.
+ * 컨트롤러에서 @query 데코레이터로 처리한 쿼리스트링의 값이 넘어오고, 해당 값을 인자로
+ * mongoose를 이용해 데이터베이스에서 검색 및 반환.
+ */
 @Injectable()
 export class SearchService {
   constructor(
