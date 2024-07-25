@@ -1,10 +1,5 @@
 import { Document } from "mongoose";
 
-export interface SearchDTO {
-  query : string
-}
-
-
 export interface BookDTO extends Document {
     _id : number;
     title : string;
