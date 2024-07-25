@@ -13,8 +13,9 @@ export const UlComponent = {
   reactStyle : (incommingData) => {
 
     let innerString = ""
+    const passedData = incommingData.incomeData
 
-      for(let element of incommingData){
+      for(let element of passedData){
         innerString += LiComponent(`제목 : ${element.title}, 저자 : ${element.author}`)
       }
 

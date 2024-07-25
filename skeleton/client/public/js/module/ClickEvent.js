@@ -12,7 +12,8 @@ const ClickEvent = (target)=>{
 
     if (event.target === button) {
      const inputData = document.querySelector("input").value;
-     const data =  await FetchData(3001,`search?title=${inputData}`);
+     const data =  await FetchData(3001,`search/books?title=${inputData}`);
+     console.dir(data)
      console.log(data)
      Assembly.reactAssembly(data)
      }
