@@ -13,13 +13,16 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     return super.canActivate(context); // 기본 인증 로직을 실행합니다.
   }
 
+  //* validate 메소드가 호출되고 난 후, 자동으로 호출되는 메소드
   handleRequest<TUser = JwtPayloadDTO | null>(err, user: TUser, info) {
     if (err || !user) {
       if (info) {
-        console.log('Authentication failed:', info.message); // 인증 실패 이유를 로그로 출력
+        console.log('Authentication failed:', info.message);
       }
-      throw err || new UnauthorizedException(); // 에러가 있거나 사용자가 없으면 예외를 발생시킵니다.
+      throw err || new UnauthorizedException();
     }
-    return user; // 인증된 사용자 정보를 반환하여 req.user에 설정합니다.
+
+    //* 해당 반환 값을 req.user에 할당한다.
+    return user;
   }
 }
