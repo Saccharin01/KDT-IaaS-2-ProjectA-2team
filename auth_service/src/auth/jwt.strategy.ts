@@ -3,7 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { AuthService } from './auth.service';
 import { ConfigService } from '@nestjs/config';
-import { JwtPayloadDTO } from '@shared/dto/JwtPayloadDTO';
+import { JwtPayloadDTO } from './dto/JwtPayloadDTO';
 
 /**
  * LocalStrategy는 passport-local 전략을 구현합니다. 이 전략은 PassportModule에 의해 자동으로 등록됩니다.
@@ -19,7 +19,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       //! 만료된 토큰 거부
       ignoreExpiration: false,
-      secretOrKey: configService.get('JWT_SECRECT'),
+      secretOrKey: configService.get('JWT_SECRET'),
     });
   }
 
