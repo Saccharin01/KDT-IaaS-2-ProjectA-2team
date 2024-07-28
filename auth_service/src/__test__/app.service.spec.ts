@@ -3,7 +3,7 @@ import { AppService } from '../app.service';
 import mongoose, { Model } from 'mongoose';
 import { User, UserDocument } from '../auth/schemas/user.schema';
 import { getModelToken, MongooseModule } from '@nestjs/mongoose';
-import { JwtService } from '@nestjs/jwt';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import { UserSchema } from '../auth/schemas/user.schema';
 
@@ -11,6 +11,8 @@ describe('AppService', () => {
   let service: AppService;
   let userModel: Model<UserDocument>;
   let mongodb: MongoMemoryServer;
+  let jwtService: JwtService;
+  const testKey = 'TEST_KEY';
 
   beforeAll(async () => {
     mongodb = await MongoMemoryServer.create();
@@ -20,11 +22,15 @@ describe('AppService', () => {
       imports: [
         MongooseModule.forRoot(url),
         MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+        JwtModule.register({
+          secretOrPrivateKey: testKey,
+        }),
       ],
 
-      providers: [AppService, JwtService],
+      providers: [AppService],
     }).compile();
 
+    jwtService = module.get<JwtService>(JwtService);
     service = module.get<AppService>(AppService);
     userModel = module.get<Model<UserDocument>>(getModelToken(User.name));
   });
@@ -81,5 +87,36 @@ describe('AppService', () => {
     await service.create(user);
 
     expect(await service.validateUser('hello', 'hy')).toBeNull();
+  });
+
+  it('makeJWT Method Test', async () => {
+    const user = {
+      _id: 'test@example.com',
+      password: 'password',
+    };
+
+    const payload = service.makeJWT(user);
+    const decodePayload = jwtService.decode(payload.access_token);
+
+    expect(decodePayload).toHaveProperty('_id', user._id);
+    expect(decodePayload).toHaveProperty('iat');
+  });
+
+  describe('checkDuplicate 테스트', () => {
+    const userObj = {
+      _id: 'test@example.com',
+      password: 'password',
+    };
+
+    it('중복된 아이디가 없을 떄', async () => {
+      expect(await service.checkDuplicate(userObj._id)).toBeTruthy();
+    });
+
+    it('중복된 아이디가 존재할 때', async () => {
+      const user = await userModel.create(userObj);
+      await user.save();
+
+      expect(await service.checkDuplicate(userObj._id)).toBeFalsy();
+    });
   });
 });
