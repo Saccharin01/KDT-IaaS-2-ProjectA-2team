@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import LoginDTO from './auth/dto/loginDTO';
+import LoginDTO from '@shared/dto/loginDTO';
 import { JwtPayloadDTO } from './auth/dto/JwtPayloadDTO';
 import { omit } from 'lodash';
 import { JwtService } from '@nestjs/jwt';
@@ -20,7 +20,7 @@ export class AppService {
     const hashedPassword = await bcrypt.hash(userDto.password, salt);
 
     //* 중복된 아이디가 있는지 검사
-    if (await this.userModel.findById(userDto._id)) {
+    if ((await this.checkDuplicate(userDto._id)) === false) {
       return false;
     }
 
@@ -34,7 +34,7 @@ export class AppService {
     return true;
   }
 
-  async login(user: LoginDTO) {
+  makeJWT(user: LoginDTO) {
     const payload: JwtPayloadDTO = omit(user, 'password');
     return {
       access_token: this.jwtService.sign(payload),
@@ -60,5 +60,10 @@ export class AppService {
     } else {
       return null;
     }
+  }
+
+  async checkDuplicate(id: string) {
+    const result = await this.userModel.findById(id);
+    return !result;
   }
 }
