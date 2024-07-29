@@ -3,6 +3,7 @@
   "packages": [
     "frontend",
     "backend",
+    "search-service",
     "shared",
     "db",
     "auth_service"
