@@ -6,9 +6,11 @@ import { jwtModuleOptions } from './config/jwt.config';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { JwtStrategy } from './jwt.strategy';
+import { configOptions } from './config/env.config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(configOptions),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
@@ -18,7 +20,6 @@ import { JwtStrategy } from './jwt.strategy';
     }),
     PassportModule,
     JwtModule.register(jwtModuleOptions),
-    ConfigModule.forRoot(),
   ],
   providers: [AuthService, JwtStrategy],
 })
