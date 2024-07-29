@@ -7,7 +7,7 @@
     "frontend",
     "backend",
     "db",
-    "auth_service"
+    "auth_service",
     "search-service"
   ],
   "scripts": {
