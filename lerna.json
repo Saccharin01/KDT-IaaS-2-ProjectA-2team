@@ -5,7 +5,8 @@
     "backend",
     "search-service",
     "shared",
-    "db"
+    "db",
+    "auth_service"
   ],
   "npmClient": "npm",
   "version": "independent"
