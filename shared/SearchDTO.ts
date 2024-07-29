@@ -1,5 +1,7 @@
 import { Document } from "mongoose";
 
+
+
 export interface BookDTO extends Document {
     _id : number;
     title : string;
@@ -14,5 +16,7 @@ export interface BookDTO extends Document {
 export interface SearchResponse {
   incomeData: BookDTO[]
 }
+
+export default SearchResponse
 
 
