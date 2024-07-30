@@ -1,25 +1,9 @@
-// import ITextNode from "@shared/interfaces/Woosik/ITextNode";
-// import IClassName from "@shared/interfaces/Woosik/IClassName";
-// import IAuthor from "@shared/interfaces/Woosik/IAuthor";
-// import IPrice from "@shared/interfaces/Woosik/IPrice";
-// import ITitle from "@shared/interfaces/Woosik/ITitle";
-// import SearchResponse from "@shared/SearchDTO";
+import base from "@shared/SearchDTO"
+import { HTMLAttributes } from "react"
 
-// interface IExplaination extends ITextNode, IClassName, IAuthor, IPrice, ITitle {}
-
-interface baseDTO {
-  _id: number;
-  title: string;
-  author?: string;
-  price: number;
-  genre?: string;
-  publisher?: string;
-  explanation?: string;
-  stock: number;
+interface IExplainationInterface extends HTMLAttributes<base>  {
+  parsedData : base[]
 }
+// interface IExplainationInterface extends HTMLAttributes<base>  {}
 
-interface response {
-  test: baseDTO[];
-}
-
-export default response;
+export default IExplainationInterface
