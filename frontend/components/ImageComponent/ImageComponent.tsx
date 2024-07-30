@@ -1,10 +1,13 @@
-import ImageInterface from "./IImageInterface";
+import IImageInterface from "./IImageInterface";
 
-const ImageComponent: React.FC<ImageInterface> = ({className,src}) =>{
+const ImageComponent: React.FC<IImageInterface> = ({parsedData}) => {
+
   return(
-    <div className={className}>
-      <img src={src} alt={src}/>
-    </div>
+      parsedData.map((element, index)=>
+      <div className="produce_image" key={index}>
+        <img src={element._id.toString()} alt={element._id.toString()}/>
+      </div>
+    )
   )
 }
 
