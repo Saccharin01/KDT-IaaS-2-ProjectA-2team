@@ -1,9 +1,11 @@
-import base from "@shared/SearchDTO"
-import { HTMLAttributes } from "react"
-
-interface IExplainationInterface extends HTMLAttributes<base>  {
-  parsedData : base[]
+interface IExplainationInterface {
+    title : string;
+    author? : string;
+    price: number;
+    genre? : string;
+    publisher? : string;
+    explanation? : string;
 }
-// interface IExplainationInterface extends HTMLAttributes<base>  {}
+
 
 export default IExplainationInterface

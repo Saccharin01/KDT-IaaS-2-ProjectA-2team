@@ -1,7 +1,7 @@
 import data from "../components/testData";
 import PageAssembly from "frontend/components/ImageComponent/PageAssembly";
 import ImageAssembly from "frontend/components/ImageComponent/ImageAssembly";
-import ExplanationAssembly from "frontend/components/ExplainationComponent/ExplainationAssembly";
+import ExplanationAssembly from "frontend/components/ExplainationComponent/ExplainationComponent";
 
 
 // const searchPage = () => {
@@ -15,7 +15,7 @@ import ExplanationAssembly from "frontend/components/ExplainationComponent/Expla
 const searchPage = () => {
   return (
     <div id="root">
-      <PageAssembly/>
+      <PageAssembly data={data.test}/>
     </div>
   );
 };

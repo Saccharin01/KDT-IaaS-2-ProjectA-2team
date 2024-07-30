@@ -1,24 +1,27 @@
 import React from "react"
-import ExplainAssembly from "../ExplainationComponent/ExplainationAssembly"
-import ImageAssembly from "./ImageAssembly"
 import baseDTO from "@shared/SearchDTO"
-import data from "../testData"
-
+import ImageComponent from "./ImageComponent"
+import ExplanationComponent from "../ExplainationComponent/ExplainationComponent"
 
 interface ParsedData {
   data : baseDTO[]
-
 }
 
 
-const PageAssembly = () => {
-  const parsedData = data.parsedData
+const PageAssembly:React.FC<ParsedData> = ({data}) => {
 
   return(
-      <div>
-      <ExplainAssembly parsedData={parsedData}/>
-      <ImageAssembly parsedData={parsedData}/>
+    data.map((element, index)=> 
+      <div key={index} className="test">
+        <ImageComponent src={`${element._id}`} alt={`${element._id}`}/>
+        <ExplanationComponent
+        title={element.title}
+        author={element.author}
+        price={element.price}
+        explanation={element.explanation}
+        />
       </div>
+    )
   )
 }
 

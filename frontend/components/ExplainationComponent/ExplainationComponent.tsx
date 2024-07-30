@@ -1,27 +1,26 @@
 import IExplainationInterface from "./IExplainationInterface"
 import ParameterComponent from "../ParameterComponent/ParameterComponent";
 
-const explanationAssembly: React.FC<IExplainationInterface> = ({ parsedData }) => {
+
+const ExplanationAssembly: React.FC<IExplainationInterface> = ({title,author,price,explanation}) => {
   return (
-      parsedData.map((element, index) => (
-        <div key={index} className="details">
+    <div>
           <div>
-            <h3>{element.title}</h3>
+            <h3>{title}</h3>
           </div>
           <div>
-            <h4>{element.author}</h4>
+            <h4>{author}</h4>
           </div>
           <div>
-            <ParameterComponent>{element.price}원</ParameterComponent>
+            <ParameterComponent>{price}</ParameterComponent>
           </div>
           <div>
-            <ParameterComponent>{element.explanation}</ParameterComponent>
+            <ParameterComponent>{explanation}</ParameterComponent>
           </div>
-        </div>
-      ))
+    </div>
   );
 };
-export default explanationAssembly;
+export default ExplanationAssembly;
 
 
 
