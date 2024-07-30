@@ -1,6 +1,6 @@
-import IClassName from "@shared/interfaces/Woosik/IClassName"
-import ISrc from "@shared/interfaces/Woosik/ISrc"
+import { ImgHTMLAttributes} from "react"
 
-interface ImageComponent extends IClassName,ISrc{}
+interface IImageInterface extends ImgHTMLAttributes<HTMLImageElement>{}
 
-export default ImageComponent
+
+export default IImageInterface
