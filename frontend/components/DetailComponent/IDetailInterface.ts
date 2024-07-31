@@ -4,7 +4,9 @@ import Price from"@shared/interfaces/IPrice"
 import Explanation from"@shared/interfaces/IExplanation"
 
 
-interface IDetailInterface extends Title, Author, Price, Explanation{}
+interface IDetailInterface extends Title, Author, Price, Explanation{
+  className? : string
+}
 
 
 export default IDetailInterface
