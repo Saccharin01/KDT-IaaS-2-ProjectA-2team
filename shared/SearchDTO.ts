@@ -22,8 +22,12 @@ export interface BookDTO extends Document{
   price: number;
   genre? : string;
   publisher? : string;
-  explanation? : string;
-  stock : number;  
+  introduce? : string;
+  hashtags: string;
+  arrival_date?: number;
+  stock_quantity : number;
+  Remain_stock?: number
+  Sold_stock?: number
 }
 
 export interface SearchResponse {
@@ -31,5 +35,6 @@ export interface SearchResponse {
 }
 
 export default base
+
 
 
