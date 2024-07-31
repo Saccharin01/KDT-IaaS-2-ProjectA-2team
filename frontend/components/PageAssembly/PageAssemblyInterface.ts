@@ -1,6 +1,6 @@
-import { BookDTO } from "@shared/SearchDTO";
+import base from "@shared/SearchDTO";
 
-interface basePlate extends BookDTO {}
+interface basePlate extends base {}
 
 interface IPageAssembly{
   data : basePlate[]
