@@ -1,7 +1,7 @@
 import React from "react"
 import baseDTO from "@shared/SearchDTO"
-import ImageComponent from "./ImageComponent"
-import ExplanationComponent from "../ExplainationComponent/ExplainationComponent"
+import ImageComponent from "./ImageComponent/ImageComponent"
+import ExplanationComponent from "./ExplainationComponent/ExplainationComponent"
 
 interface ParsedData {
   data : baseDTO[]
