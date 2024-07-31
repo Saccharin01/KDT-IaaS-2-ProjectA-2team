@@ -3,7 +3,8 @@ import PageAssembly from "frontend/components/PageAssembly/PageAssembly";
 
 const searchPage = () => {
   return (
-    <div id="root">
+    <div id="root"
+    className="h-screen">
       <PageAssembly data={data.test}/>
     </div>
   );
