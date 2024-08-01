@@ -28,7 +28,7 @@ const SearchBooksAssembly: React.FC<ISearchBooksInterface> = ({ data }) => {
               title={element.title}
               author={element.author}
               price={element.price}
-              explanation={element.explanation}
+              introduce={element.introduce}
               className="mb-2"
             />
           </div>
