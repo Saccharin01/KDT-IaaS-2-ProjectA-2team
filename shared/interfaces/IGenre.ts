@@ -1,5 +1,5 @@
 interface IGenre {
-  genre : string
+  genre? : string
 }
 
 export default IGenre
