@@ -1,5 +1,5 @@
 interface IAuthor {
-  author : string
+  author? : string
 }
 
 export default IAuthor
