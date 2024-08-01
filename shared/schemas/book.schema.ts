@@ -1,9 +1,9 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Document } from "mongoose";
 
 export type BookDocument = Book & Document;
 
-@Schema({ collection: 'books' })
+@Schema({ collection: "books_info" })
 export class Book {
   @Prop({ required: true })
   _id: number;
@@ -16,10 +16,10 @@ export class Book {
 
   @Prop({
     required: true,
-     //* 음수 금지
+    //* 음수 금지
     validate: {
-        validator: (value: number) => value >= 0,
-        message: 'Stock must be a non-negative number.',
+      validator: (value: number) => value >= 0,
+      message: "Stock must be a non-negative number.",
     },
   })
   price: number;
@@ -30,20 +30,41 @@ export class Book {
   @Prop({ required: true })
   publisher: string;
 
+  @Prop({ required: true })
+  introduce: string;
+
+  @Prop({ required: true })
+  hashtags: string;
+
   @Prop({
     required: true,
     validate: {
-        validator: (value: number) => value >= 0,
-        message: 'Stock must be a non-negative number.',
+      validator: (value: number) => value >= 0,
+      message: "Stock must be a non-negative number.",
     },
   })
-  stock: number;
+  stock_quantity: number;
 
   @Prop({ required: true })
-  explanation: string;
+  arrival_date: Date;
 
-  @Prop({ required: true})
-  out: boolean;
+  @Prop({
+    required: true,
+    validate: {
+      validator: (value: number) => value >= 0,
+      message: "Stock must be a non-negative number.",
+    },
+  })
+  remain_stock: number;
+
+  @Prop({
+    required: true,
+    validate: {
+      validator: (value: number) => value >= 0,
+      message: "Stock must be a non-negative number.",
+    },
+  })
+  sold_stock: number;
 }
 
 export const BookSchema = SchemaFactory.createForClass(Book);
