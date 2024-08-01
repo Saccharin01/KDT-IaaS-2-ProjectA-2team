@@ -4,7 +4,8 @@ import { BooksService } from '../books.service';
 import { MongooseModule, getModelToken } from '@nestjs/mongoose';
 import { Book, BookDocument, BookSchema } from '@shared/schemas/book.schema';
 import mongoose, { Model } from 'mongoose';
-import { bookArrayData } from './dummybooks.spec';
+import { bookArrayData, updateBoook as updateBook } from './dummybooks.spec';
+import { BadRequestException, InternalServerErrorException } from '@nestjs/common';
 
 describe('BooksService', () => {
   let service: BooksService;
@@ -61,8 +62,26 @@ describe('BooksService', () => {
         arrival_date: new Date('2024-07-23T00:00:00Z'),
       };
 
-      const result = await service.updateBoook(updateData);
+      const result = await service.updateBook(updateData);
       expect(result).toEqual(updateData);
+    });
+
+    it('없는 _id 업데이트 테스트', async () => {
+      const copy = structuredClone(updateBook);
+      copy._id = 4;
+
+      await expect(service.updateBook(copy)).rejects.toThrow(
+        InternalServerErrorException,
+      );
+    });
+
+    it('데이터 유효성 검사 실패', async () => {
+      const copy = structuredClone(updateBook);
+      copy.sold_stock = -1;
+
+      await expect(service.updateBook(copy)).rejects.toThrow(
+        BadRequestException,
+      );
     });
   });
 });
