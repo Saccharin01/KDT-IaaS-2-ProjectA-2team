@@ -20,7 +20,7 @@ export class BooksService {
     return await this.bookModel.find().select('-__v').lean();
   }
 
-  async updateBoook(bookDto: BookDto): Promise<BookDto> {
+  async updateBook(bookDto: BookDto): Promise<BookDto> {
     const { _id, ...anotherField } = bookDto;
     try {
       const updatedBook = await this.bookModel
