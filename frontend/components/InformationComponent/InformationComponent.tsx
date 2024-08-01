@@ -1,8 +1,8 @@
-import IDetailInterface from "./IInformationInterface"
+import IInformationInterface from "./IInformationInterface"
 import ParameterComponent from "../ParameterComponent/ParameterComponent";
 
 
-const InformationComponent: React.FC<IDetailInterface> = ({title,author,price,explanation}) => {
+const InformationComponent: React.FC<IInformationInterface> = ({title,author,price,introduce}) => {
   return (
     <div>
           <div>
@@ -15,28 +15,9 @@ const InformationComponent: React.FC<IDetailInterface> = ({title,author,price,ex
             <ParameterComponent>{price}</ParameterComponent>
           </div>
           <div>
-            <ParameterComponent>{explanation}</ParameterComponent>
+            <ParameterComponent>{introduce}</ParameterComponent>
           </div>
     </div>
   );
 };
 export default InformationComponent;
-
-
-
-
-// const DetailComponent: React.FC<IExplainationInterface> = ({parsedData}) => {
-
-//   return ( 
-
-
-//     <div className="details" key={index}>
-//       <h3>{element.title}</h3>
-//       <h4>{element.author}</h4>
-//       <ParameterComponent>{element.price}원</ParameterComponent>
-//       <ParameterComponent>{element.explanation}</ParameterComponent>
-//     </div>
-        
-//   );
-// };
-
