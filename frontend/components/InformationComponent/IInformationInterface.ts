@@ -1,10 +1,9 @@
-import Title from"@shared/interfaces/ITitle"
-import Author from"@shared/interfaces/IAuthor"
-import Price from"@shared/interfaces/IPrice"
-import Explanation from"@shared/interfaces/IExplanation"
+import ITitle from"@shared/interfaces/ITitle"
+import IAuthor from"@shared/interfaces/IAuthor"
+import IPrice from"@shared/interfaces/IPrice"
+import IIntroduce from "@shared/interfaces/IInrtoduce"
 
-
-interface IDetailInterface extends Title, Author, Price, Explanation{
+interface IDetailInterface extends ITitle, IAuthor, IPrice, IIntroduce{
   className? : string
 }
 
