@@ -10,7 +10,7 @@ import { Model } from 'mongoose';
 @Injectable()
 export class SearchService {
   constructor(
-    @InjectModel('book_info') private readonly bookModel: Model<BookDTO>,
+    @InjectModel('books_info') private readonly bookModel: Model<BookDTO>,
   ) {}
 
   searchBooks = async (query: string): Promise<SearchResponse> => {
