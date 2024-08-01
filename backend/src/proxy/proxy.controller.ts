@@ -7,6 +7,7 @@ import {
   Get,
   Param,
   ValidationPipe,
+  Put,
 } from '@nestjs/common';
 import { ProxyService } from './proxy.service';
 import LoginDTO from '@shared/dto/loginDTO';
@@ -85,6 +86,28 @@ export class ProxyController {
   ) {
     const url = this.buildUrl('admin', path, query);
     return this.proxyService.proxyGetRequest(url, headers);
+  }
+
+  @Post(['admin', 'admin/:path'])
+  async proxyPostAdmin(
+    @Param('path') path: string,
+    @Query() query: any,
+    @Body() data: unknown,
+    @Headers() headers: any,
+  ) {
+    const url = this.buildUrl('admin', path, query);
+    return this.proxyService.proxyPostRequest(url, data, headers);
+  }
+
+  @Put(['admin', 'admin/:path'])
+  async proxyPutAdmin(
+    @Param('path') path: string,
+    @Query() query: any,
+    @Body() data: unknown,
+    @Headers() headers: any,
+  ) {
+    const url = this.buildUrl('admin', path, query);
+    return this.proxyService.proxyPutRequest(url, data, headers);
   }
 
   private buildUrl(
