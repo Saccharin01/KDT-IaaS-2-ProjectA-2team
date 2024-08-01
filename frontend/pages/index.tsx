@@ -1,13 +1,13 @@
 import data from "../components/testData";
-import PageAssembly from "frontend/components/PageAssembly/PageAssembly";
+import SearchBooksAssembly from "frontend/components/Assembly/SearchBooks/SearchBooksAssembly";
 
-const searchPage = () => {
+const SearchBook = () => {
   return (
     <div id="root"
     className="h-screen">
-      <PageAssembly data={data.test}/>
+      <SearchBooksAssembly data={data.test}/>
     </div>
   );
 };
 
-export default searchPage
+export default SearchBook
