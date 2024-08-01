@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { SearchResponse, BookDTO } from '@shared/SearchDTO';
+import { Book } from '@shared/schemas/book.schema';
 import { Model } from 'mongoose';
 /**
  * search 컨트롤러에서 라우팅 된 메서드의 비즈니스 로직을 정의하는 서비스.
@@ -10,8 +11,7 @@ import { Model } from 'mongoose';
 @Injectable()
 export class SearchService {
   constructor(
-    @InjectModel('book_info') private readonly bookModel: Model<BookDTO>,
-  ) {}
+    @InjectModel(Book.name) private readonly bookModel: Model<BookDTO>) {}
 
   searchBooks = async (query: string): Promise<SearchResponse> => {
     const searchRegex = new RegExp(query, 'i'); // 대소문자 구분 없이 검색
