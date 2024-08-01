@@ -1,6 +1,6 @@
 // app/inventory/page.tsx
 "use client";
-
+import { ModalComponent } from "./modal";
 import React, { useMemo, useState } from "react";
 import {
   Column,
@@ -17,8 +17,10 @@ import {
   getFacetedRowModel,
   getFacetedUniqueValues,
 } from "@tanstack/react-table";
-import { HeaderFilter, ITableHeader } from "../interface/ITable";
-import "../public/index.css";
+import { HeaderFilter, ITableHeader } from "./interface/ITable";
+import "./index.css";
+import { IFieldType } from "./interface/IField";
+import { DataController } from "./class/DataController";
 
 declare module "@tanstack/react-table" {
   //allows us to define custom properties for our columns
@@ -30,17 +32,28 @@ declare module "@tanstack/react-table" {
 export function TableComponent<T extends ITableHeader, K>({
   header,
   data,
+  field,
+  dataController
 }: {
   header: T;
   data: K[];
+  field: IFieldType;
+  dataController: DataController
 }) {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
 
+  const [crud, setCrud] = useState<TableCRUD>("none");
+  const [rowdata, setData] = useState<K[]>(data);
+
+  //* 열데이터 저장
+  const [selectedData, setSelectedData] = useState<K | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   function makeHeader(columns: T): ColumnDef<K, any>[] {
     return Object.entries(columns).map(([key, value]) => ({
-      header: value[0], // key 대신 value를 사용하면 컬럼 이름을 지정할 수 있습니다.
+      header: value[0],
       accessorKey: key,
       cell: (info) => info.getValue(),
       meta: GetFilter(value[1]),
@@ -53,24 +66,50 @@ export function TableComponent<T extends ITableHeader, K>({
   );
 
   const table = useReactTable({
-    data,
+    data: rowdata,
     columns,
-    filterFns: {},
     state: {
       columnFilters,
     },
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(), //client side filtering
+    getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    getFacetedRowModel: getFacetedRowModel(), // client-side faceting
-    getFacetedUniqueValues: getFacetedUniqueValues(), // generate unique values for select filter/autocomplete
+    getFacetedRowModel: getFacetedRowModel(),
+    getFacetedUniqueValues: getFacetedUniqueValues(),
     getFacetedMinMaxValues: getFacetedMinMaxValues(),
     debugTable: true,
     debugHeaders: true,
     debugColumns: false,
   });
+
+  //* 열 클릭
+  const handleRowClick = (row: K) => {
+    setCrud("update");
+    setSelectedData(row);
+    setIsModalOpen(true);
+  };
+
+  //* 모달 창 닫기 이벤트
+  const handleModalClose = () => {
+    setCrud("none");
+    setIsModalOpen(false);
+    setSelectedData(null);
+  };
+
+  //* 모달 창 저장
+  const handleSave = (updatedData: K) => {
+    setData((prevData) =>
+      prevData.map((item) => (item === selectedData ? updatedData : item))
+    );
+  };
+
+  const handleAddNew = () => {
+    setCrud("create");
+    setSelectedData(null);
+    setIsModalOpen(true);
+  };
 
   return (
     <div className="p-2 w-full overflow-scroll">
@@ -78,67 +117,80 @@ export function TableComponent<T extends ITableHeader, K>({
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr className="bg-gray-200" key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
-                return (
-                  <th
-                    className="hover:bg-gray-100"
-                    key={header.id}
-                    colSpan={header.colSpan}
-                  >
-                    {header.isPlaceholder ? null : (
-                      <>
-                        <div
-                          {...{
-                            className: header.column.getCanSort()
-                              ? "cursor-pointer select-none"
-                              : "",
-                            onClick: header.column.getToggleSortingHandler(),
-                          }}
-                        >
-                          {flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                          {{
-                            asc: " 🔼",
-                            desc: " 🔽",
-                          }[header.column.getIsSorted() as string] ?? null}
+              {headerGroup.headers.map((header) => (
+                <th
+                  className="hover:bg-gray-100"
+                  key={header.id}
+                  colSpan={header.colSpan}
+                >
+                  {header.isPlaceholder ? null : (
+                    <>
+                      <div
+                        className={
+                          header.column.getCanSort()
+                            ? "cursor-pointer select-none"
+                            : ""
+                        }
+                        onClick={header.column.getToggleSortingHandler()}
+                      >
+                        {flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                        {{
+                          asc: " 🔼",
+                          desc: " 🔽",
+                        }[header.column.getIsSorted() as string] ?? null}
+                      </div>
+                      {header.column.getCanFilter() ? (
+                        <div>
+                          <Filter column={header.column} />
                         </div>
-                        {header.column.getCanFilter() ? (
-                          <div>
-                            <Filter column={header.column} />
-                          </div>
-                        ) : null}
-                      </>
-                    )}
-                  </th>
-                );
-              })}
+                      ) : null}
+                    </>
+                  )}
+                </th>
+              ))}
             </tr>
           ))}
         </thead>
         <tbody>
-          {table.getRowModel().rows.map((row) => {
-            return (
-              <tr key={row.id}>
-                {row.getVisibleCells().map((cell) => {
-                  return (
-                    <td className="hover:bg-gray-100" key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </td>
-                  );
-                })}
-              </tr>
-            );
-          })}
+          {table.getRowModel().rows.map((row) => (
+            <tr
+              key={row.id}
+              onClick={() => handleRowClick(row.original)}
+              className="cursor-pointer hover:bg-gray-200"
+            >
+              {row.getVisibleCells().map((cell) => (
+                <td className="hover:bg-gray-100" key={cell.id}>
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </td>
+              ))}
+            </tr>
+          ))}
         </tbody>
       </table>
+
+      <ModalComponent
+        isOpen={isModalOpen}
+        onClose={handleModalClose}
+        data={selectedData}
+        onSave={handleSave}
+        keys={Object.keys(header) as (keyof K)[]}
+        fieldTypes={field}
+        crud={crud}
+        dataController={dataController}
+      />
+
       <div className="h-2" />
-      <div className="flex justify-around w-full bg-gray-200 p-2 ">
+      <div className="flex justify-around w-full bg-gray-200 p-2">
         <div className="w-3/12 flex justify-around">
+          <button
+            className="border p-2 bg-white rounded-xl hover:border-gray-600"
+            onClick={handleAddNew}
+          >
+            {"+"}
+          </button>
           <button
             className="border p-2 bg-white rounded-xl hover:border-gray-600"
             onClick={() => table.setPageIndex(0)}
