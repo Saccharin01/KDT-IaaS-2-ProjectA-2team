@@ -17,14 +17,25 @@ export class SearchService {
     const searchRegex = new RegExp(query, 'i'); // 대소문자 구분 없이 검색
 
     try {
-      const data = await this.bookModel
-        .find({ title: { $regex: searchRegex } })
-        .exec();
+      const data = await this.bookModel.find({ title: { $regex: searchRegex } }).exec();
       console.log('Found data:', data);
       return { incomeData: data };
     } catch (err) {
-      console.error('Error fetching books:', err);
+      console.error('Error fetching book by Title :', err);
       throw err; // 에러 발생 시 프로미스를 reject 상태로 만듭니다.
     }
   };
+
+  searchBooksById = async(id: number): Promise<SearchResponse> => {
+    try {
+      // 숫자형 ID로 검색
+      const data = await this.bookModel.findById({ _id: id }).exec();
+      return { incomeData: data ? [data] : [] };
+    } catch (err) {
+      console.error('Error fetching book by ID :', err);
+      throw new Error(`Error fetching book by ID :${err}`);
+    }
+  }
+
+
 }
