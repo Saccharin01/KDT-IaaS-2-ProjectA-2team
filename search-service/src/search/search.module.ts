@@ -9,7 +9,7 @@ import { configOptions } from '@shared/config/env.config';
 @Module({
   imports: [
     ConfigModule.forRoot(configOptions),
-    MongooseModule.forFeature([{ name: 'book_info', schema: BookSchema }]),
+    MongooseModule.forFeature([{ name: process.env.MODEL_NAME, schema: BookSchema, collection: process.env.MODEL_NAME}]),
     MongooseModule.forRoot(process.env.DATABASE_HOST),
   ],
   controllers: [SearchController],
