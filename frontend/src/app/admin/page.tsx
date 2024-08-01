@@ -1,10 +1,8 @@
 // app/inventory/page.tsx
 "use client";
 
-import React, { useContext, useMemo, useState, createContext } from "react";
-import { TableComponent } from "./components/table";
+import React, { useState } from "react";
 import { Sidebar } from "./components/sidebar";
-import { SearchComponent } from "./components/search";
 import { AdminMainComponent } from "./components/adminMain";
 import { SideSelectContext } from "./context/SideSelectContext";
 import { SideContextState } from "./interface/types";
@@ -21,7 +19,6 @@ export default function AdminPage() {
           <Sidebar />
         </div>
         <div className="col-span-5 p-20 w-full">
-          {/* {selected && <AdminMainComponent /> } */}
           <AdminMainComponent/>
         </div>
       </div>
