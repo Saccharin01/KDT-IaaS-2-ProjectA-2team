@@ -1,7 +1,7 @@
 import React from "react";
 import IPageAssembly from "./PageAssemblyInterface";
 import ImageComponent from "../ImageComponent/ImageComponent";
-import DetailComponent from "../DetailComponent/DetailComponent";
+import InformationComponent from "../InformationComponent/InformationComponent";
 import ButtonComponent from "../ButtonComponent/ButtonComponent";
 
 
@@ -23,11 +23,11 @@ const PageAssembly: React.FC<IPageAssembly> = ({ data }) => {
             <ImageComponent src={`${element._id}`} alt={`${element._id}`} className="w-40 h-auto" />
           </div>
           <div className="w-full lg:w-2/3 p-2">
-            <DetailComponent
+            <InformationComponent
               title={element.title}
               author={element.author}
               price={element.price}
-              explanation={element.explanation}
+              introduce={element.introduce}
               className="mb-2"
             />
           </div>
