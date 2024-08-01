@@ -6,6 +6,7 @@ import LoginDTO from '@shared/dto/loginDTO';
 import nock from 'nock';
 import { ConfigService } from '@nestjs/config';
 import PaymentDTO from '@shared/dto/paymentDTO';
+import { BookDto } from '@shared/dto/book.dto';
 import { AppModule } from '../app.module';
 
 describe('Proxy Module 통합 테스트', () => {
@@ -133,6 +134,34 @@ describe('Proxy Module 통합 테스트', () => {
         .set('Content-Type', 'application/json');
 
       expect(response.body).toEqual(mockResponse);
+    });
+  });
+
+  describe('Admin_service 경로 테스트', () => {
+    it('GET 테스트', async () => {
+      const dummyData: BookDto[] = [
+        {
+          _id: 1,
+          title: 'The Great Gatsby',
+          author: 'F. Scott Fitzgerald',
+          price: 10.99,
+          genre: 'Fiction',
+          publisher: 'Scribner',
+          stock: 100,
+          explanation: 'A novel set in the Jazz Age on Long Island.',
+          out: false,
+        },
+      ];
+
+      nock(configService.get('ADMIN_SERVICE_HOST'))
+        .get('/books')
+        .reply(200, dummyData);
+
+      const response = await request(app.getHttpServer())
+        .get('/admin/books')
+        .send();
+
+      expect(response.body).toEqual(dummyData);
     });
   });
 });

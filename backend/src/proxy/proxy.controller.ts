@@ -77,6 +77,16 @@ export class ProxyController {
     return this.proxyService.proxyPostRequest(url, data, headers);
   }
 
+  @Get(['admin', 'admin/:path'])
+  async proxyGetAdmin(
+    @Param('path') path: string,
+    @Query() query: any,
+    @Headers() headers: any,
+  ) {
+    const url = this.buildUrl('admin', path, query);
+    return this.proxyService.proxyGetRequest(url, headers);
+  }
+
   private buildUrl(
     service: string,
     path: string | undefined,
@@ -101,6 +111,8 @@ export class ProxyController {
       case 'search':
         return this.configService.get('SEARCH_SERVICE_HOST');
       // 다른 서비스 추가 가능
+      case 'admin':
+        return this.configService.get('ADMIN_SERVICE_HOST');
       default:
         throw new Error('Unknown service');
     }

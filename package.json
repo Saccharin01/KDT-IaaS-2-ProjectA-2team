@@ -7,8 +7,9 @@
     "frontend",
     "backend",
     "db",
-    "auth_service"
-    "search-service"
+    "auth_service",
+    "search-service",
+    "admin_service"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

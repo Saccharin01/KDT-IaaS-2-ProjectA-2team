@@ -6,7 +6,8 @@
     "search-service",
     "shared",
     "db",
-    "auth_service"
+    "auth_service",
+    "admin_service"
   ],
   "npmClient": "npm",
   "version": "independent"
