@@ -1,6 +1,4 @@
-import { BookDto } from '@shared/dto/book.dto';
-
-export const bookArrayData: BookDto[] = [
+export const bookArrayData = [
   {
     _id: 1,
     title: 'The Great Gatsby',
@@ -12,7 +10,7 @@ export const bookArrayData: BookDto[] = [
     introduce: 'A novel set in the Jazz Age on Long Island.',
     remain_stock: 100,
     sold_stock: 0,
-    arrival_date: '2024-07-23T00:00:00Z',
+    arrival_date: new Date(),
     hashtags: 'init',
   },
   {
@@ -26,7 +24,7 @@ export const bookArrayData: BookDto[] = [
     introduce: 'A novel about a dystopian future under totalitarian rule.',
     remain_stock: 50,
     sold_stock: 0,
-    arrival_date: '2024-07-23T00:00:00Z',
+    arrival_date: new Date(),
     hashtags: 'bye',
   },
   {
@@ -41,11 +39,11 @@ export const bookArrayData: BookDto[] = [
     introduce: 'A novel about racial injustice in the Deep South.',
     remain_stock: 200,
     sold_stock: 0,
-    arrival_date: '2024-07-23T00:00:00Z',
+    arrival_date: new Date(),
   },
 ];
 
-export const updateBook: BookDto = {
+export const updateBook = {
   _id: 3,
   title: 'Update',
   author: 'Update',
@@ -60,7 +58,7 @@ export const updateBook: BookDto = {
   arrival_date: '2024-07-23T00:00:00Z',
 };
 
-export const newBook: BookDto = {
+export const newBook = {
   _id: 4,
   title: 'Create',
   author: 'Create',
