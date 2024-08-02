@@ -47,19 +47,28 @@ export function TableComponent<T extends ITableHeader, K>({
   const [crud, setCrud] = useState<TableCRUD>("none");
   const [rowdata, setData] = useState<K[]>(data);
 
-  //* 열데이터 저장
+  //* 행데이터 저장
   const [selectedData, setSelectedData] = useState<K | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  /**
+   * * 테이블의 헤더를 만드는 함수
+   * @param columns ITableHeader의 구현체 
+   * @returns 
+   */
   function makeHeader(columns: T): ColumnDef<K, any>[] {
     return Object.entries(columns).map(([key, value]) => ({
-      header: value[0],
-      accessorKey: key,
+      header: value[0], //* 헤더 이름
+      
+      //! 키는 헤더의 프로퍼티랑 데이터의 프로퍼티랑 같아야한다.
+      accessorKey: key, 
       cell: (info) => info.getValue(),
+      //* 필터 설정
       meta: GetFilter(value[1]),
     }));
   }
 
+  //* 헤더를 변경
   const columns = useMemo<ColumnDef<K, any>[]>(
     () => makeHeader(header),
     [header]
@@ -84,7 +93,11 @@ export function TableComponent<T extends ITableHeader, K>({
     debugColumns: false,
   });
 
-  //* 열 클릭
+  /**
+   * * 행 클릭시의 이벤트
+   * * 해당 행의 데이터를 리액트훅을 이용해 저장한다.
+   * @param row 
+   */
   const handleRowClick = (row: K) => {
     setCrud("update");
     setSelectedData(row);
