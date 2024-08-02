@@ -19,8 +19,7 @@ export class SearchController {
   
   @Get('books:id')
   searchBookById(@Param('id') id: string) {
-
-    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    console.log(`Tracking SearchBookById : ${id}`)
     // ID를 숫자로 변환
     const parsedNum = Number(id)
     console.log(parsedNum)
@@ -33,9 +32,8 @@ export class SearchController {
 
   @Get('books')
   searchBookByTitle(@Query() query: string) {
-    console.log(`응애ㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐ : ${query}`)
+    console.log(`Tracking SearchBookByTitle : ${query}`)
 
-    // if(query.startsWith(""))
       return this.searchService.searchBooksByTitle(query);
   }
 
