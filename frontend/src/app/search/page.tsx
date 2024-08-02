@@ -15,7 +15,8 @@ const testState = ()=>{
      * ! data 페칭 시 "/" 붙이면 안됨
      * ! 쿼리스트링으로 요청을 보내야 하는 경우 꼼꼼하게 확인해서 처리해야 함.
      */
-    fetch("http://localhost:3000/search/books 2407190")
+    // fetch("http://localhost:3000/search/books?2407190")
+    fetch("http://localhost:3000/search/books 2407264")
     .then((res)=>res.json())
     .then((data)=>setState(data))
     .catch((err)=>{console.error(`fetch failed: ${err}`)})
@@ -26,7 +27,7 @@ const testState = ()=>{
   return (
     <div id="root"
     className="h-screen">
-      {state ? <SearchBooksAssembly data={state.incomeData}/> : <p>wtf</p>}
+      {state ? <SearchBooksAssembly data={state.incomeData}/> : <p>Loading...</p>}
       {/* <SearchBooksAssembly data={data.test}/> */}
     </div>
   );
