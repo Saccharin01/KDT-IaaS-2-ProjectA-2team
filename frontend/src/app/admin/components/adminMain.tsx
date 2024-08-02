@@ -8,6 +8,8 @@ import axiosInstance from "../../../module/axiosInstance";
 import { bookHeader, bookField } from "../model/bookModel";
 import { IFieldType } from "./table/interface/IField";
 import { DataController } from "./table/class/DataController";
+import { formatDate } from "@shared/func/formatDate";
+import { BookDto } from "@shared/dto/book.dto";
 
 export function AdminMainComponent() {
   const context = React.useContext(SideSelectContext);
@@ -26,14 +28,38 @@ export function AdminMainComponent() {
       case "order": {
         setHeader(bookHeader);
         setField(bookField);
-        setDataController(new DataController(process.env.NEXT_PUBLIC_PROXY_SERVICE_HOST, '/admin/books', '/admin/books'));
-        axiosInstance.get("/admin/books").then((res) => setData(res.data));
+        setDataController(
+          new DataController(
+            process.env.NEXT_PUBLIC_PROXY_SERVICE_HOST,
+            "/admin/books",
+            "/admin/books"
+          )
+        );
+        axiosInstance.get("/admin/books").then((res) => {
+          const data = res.data as BookDto[];
+          data.forEach((element) => {
+            element.arrival_date = formatDate(new Date(element.arrival_date));
+          });
+          setData(data);
+        });
       }
       case "stock": {
         setHeader(bookHeader);
         setField(bookField);
-        setDataController(new DataController(process.env.NEXT_PUBLIC_PROXY_SERVICE_HOST, '/admin/books', '/admin/books'));
-        axiosInstance.get("/admin/books").then((res) => setData(res.data));
+        setDataController(
+          new DataController(
+            process.env.NEXT_PUBLIC_PROXY_SERVICE_HOST,
+            "/admin/books",
+            "/admin/books"
+          )
+        );
+        axiosInstance.get("/admin/books").then((res) => {
+          const data = res.data as BookDto[];
+          data.forEach((element) => {
+            element.arrival_date = formatDate(new Date(element.arrival_date));
+          });
+          setData(data);
+        });
       }
       default:
         setData(null);
