@@ -13,12 +13,12 @@ export class SearchService {
   constructor(
     @InjectModel(Book.name) private readonly bookModel: Model<BookDTO>) {}
 
-  searchBooks = async (query: string): Promise<SearchResponse> => {
+    searchBooksByTitle = async (query: string): Promise<SearchResponse> => {
     const searchRegex = new RegExp(query, 'i'); // 대소문자 구분 없이 검색
 
     try {
       const data = await this.bookModel.find({ title: { $regex: searchRegex } }).exec();
-      console.log('Found data:', data);
+      // console.log('Found data:', data);
       return { incomeData: data };
     } catch (err) {
       console.error('Error fetching book by Title :', err);
