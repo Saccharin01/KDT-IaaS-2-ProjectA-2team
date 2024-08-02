@@ -6,7 +6,7 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import { Book, BookDocument, BookSchema } from '@shared/schemas/book.schema';
 import { MongooseModule, getModelToken } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { bookArrayData, updateBoook } from './dummybooks.spec';
+import { bookArrayData, newBook, updateBook } from './dummybooks.spec';
 import mongoose from 'mongoose';
 import { BooksService } from '../books.service';
 
@@ -62,15 +62,19 @@ describe('BooksController', () => {
     it('Success', async () => {
       const response = await supertest(app.getHttpServer())
         .put('/books')
-        .send(updateBoook);
+        .send(updateBook);
+
+      const expectedResult = {
+        ...updateBook,
+        arrival_date: new Date('2024-07-23'),
+      };
 
       response.body.arrival_date = new Date(response.body.arrival_date);
-
-      expect(response.body).toEqual(updateBoook);
+      expect(response.body).toEqual(expectedResult);
     });
 
     it('존재하지 않는 Id', async () => {
-      const copy = structuredClone(updateBoook);
+      const copy = structuredClone(updateBook);
       copy._id = 4;
 
       const response = await supertest(app.getHttpServer())
@@ -81,7 +85,7 @@ describe('BooksController', () => {
     });
 
     it('유효성 검사 실패', async () => {
-      const copy = structuredClone(updateBoook);
+      const copy = structuredClone(updateBook);
       copy.price = -1;
 
       const response = await supertest(app.getHttpServer())
@@ -89,6 +93,27 @@ describe('BooksController', () => {
         .send(copy);
 
       expect(response.status).toBe(400);
+    });
+  });
+
+  describe('Post Method Test', () => {
+    it('Success', async () => {
+      const response = await supertest(app.getHttpServer())
+        .post('/books')
+        .send(newBook);
+
+      expect(response.status).toBe(201);
+    });
+
+    it('유효성 검사 실패', async () => {
+      const copy = structuredClone(updateBook);
+      copy.price = -1;
+
+      const response = await supertest(app.getHttpServer())
+        .post('/books')
+        .send(copy);
+
+      expect(response.status).toBe(500);
     });
   });
 });
