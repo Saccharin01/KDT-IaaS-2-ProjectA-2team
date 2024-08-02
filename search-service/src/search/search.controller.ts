@@ -7,21 +7,36 @@ import { SearchService } from './search.service';
  * 방법 강구 필요.
  */
 
-@Controller('books')
+@Controller()
 export class SearchController {
   constructor(private readonly searchService: SearchService) {}
   
+  
   //* books/122012032192
-  @Get(':id')
+  //! books1120121321564987 이런 식으로 들어옴 위의 경우가 아님
+
+
+  
+  @Get('books:id')
   searchBookById(@Param('id') id: string) {
+
+    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     // ID를 숫자로 변환
     const parsedNum = Number(id)
+    console.log(parsedNum)
     return this.searchService.searchBooksById(parsedNum);
-    }
+  }
 
-  @Get()
-  searchBookByTitle(@Query('title') query: string) {
-    return this.searchService.searchBooks(query);
+
+
+
+
+  @Get('books')
+  searchBookByTitle(@Query() query: string) {
+    console.log(`응애ㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐㅐ : ${query}`)
+
+    // if(query.startsWith(""))
+      return this.searchService.searchBooksByTitle(query);
   }
 
 }
