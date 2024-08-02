@@ -4,8 +4,11 @@ import { BooksService } from '../books.service';
 import { MongooseModule, getModelToken } from '@nestjs/mongoose';
 import { Book, BookDocument, BookSchema } from '@shared/schemas/book.schema';
 import mongoose, { Model } from 'mongoose';
-import { bookArrayData, updateBoook as updateBook } from './dummybooks.spec';
-import { BadRequestException, InternalServerErrorException } from '@nestjs/common';
+import { bookArrayData, newBook, updateBook } from './dummybooks.spec';
+import {
+  BadRequestException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 
 describe('BooksService', () => {
   let service: BooksService;
@@ -42,6 +45,7 @@ describe('BooksService', () => {
   it('데이터 가져오기', async () => {
     const getData = await service.getBooks();
     expect(getData.length).toBe(3);
+
     expect(getData).toEqual(bookArrayData);
   });
 
@@ -59,11 +63,15 @@ describe('BooksService', () => {
         introduce: 'A novel about racial injustice in the Deep South.',
         remain_stock: 200,
         sold_stock: 0,
-        arrival_date: new Date('2024-07-23T00:00:00Z'),
+        arrival_date: '2024-07-23',
       };
 
+      const expectedResult = {
+        ...updateData,
+        arrival_date: new Date('2024-07-23'),
+      };
       const result = await service.updateBook(updateData);
-      expect(result).toEqual(updateData);
+      expect(result).toEqual(expectedResult);
     });
 
     it('없는 _id 업데이트 테스트', async () => {
@@ -82,6 +90,31 @@ describe('BooksService', () => {
       await expect(service.updateBook(copy)).rejects.toThrow(
         BadRequestException,
       );
+    });
+  });
+
+  describe('신규 데이터 저장하기', () => {
+    const copy = structuredClone(newBook);
+    delete copy._id;
+
+    it('성공적으로 업데이트', async () => {
+      const ressult = await service.createBook(copy);
+      const expectedResult = {
+        _id: '4',
+        ...copy,
+        arrival_date: new Date(newBook.arrival_date),
+      };
+      expect(ressult).toEqual(expectedResult);
+    });
+
+    it('유효성 검사', async () => {
+      copy.sold_stock = -1;
+      const ressult = await service.createBook(copy);
+      const expectedResult = {
+        ...newBook,
+        arrival_date: new Date(newBook.arrival_date),
+      };
+      expect(ressult).toEqual(expectedResult);
     });
   });
 });

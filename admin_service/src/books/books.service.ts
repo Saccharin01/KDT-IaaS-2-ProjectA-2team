@@ -61,8 +61,8 @@ export class BooksService {
     }
   }
 
-  async createBook(bookDto: BookDto) {
-    const { _id, arrival_date, ...anotherField } = bookDto;
+  async createBook(bookDto: Omit<BookDto, '_id'>) {
+    const { arrival_date, ...anotherField } = bookDto;
     let date: Date;
     if (arrival_date === '') {
       date = new Date();
@@ -70,15 +70,18 @@ export class BooksService {
       date = new Date(arrival_date);
     }
 
+    const lastBook = await this.bookModel.findOne({}).sort({ _id: -1 }).lean();
+    const newId = lastBook._id + 1;
+
     const bookModel = await this.bookModel.create({
-      _id,
+      _id: newId,
       arrival_date: date,
       ...anotherField,
     });
 
     try {
       const savedBook = await bookModel.save();
-      return pick(savedBook, Object.keys(bookDto));
+      return { _id: savedBook._id, ...pick(savedBook, Object.keys(bookDto)) };
     } catch (error) {
       //* 유효성 검사가 실패
       if (error instanceof mongoose.Error.ValidationError) {
@@ -86,7 +89,7 @@ export class BooksService {
           'Validation failed: ' + JSON.stringify(error.errors),
         );
       } else {
-        throw new BadRequestException('An error occurred while saving');
+        throw new InternalServerErrorException('An unexpected error occurred');
       }
     }
   }
