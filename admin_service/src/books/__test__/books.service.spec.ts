@@ -100,7 +100,7 @@ describe('BooksService', () => {
     it('성공적으로 업데이트', async () => {
       const ressult = await service.createBook(copy);
       const expectedResult = {
-        _id: '4',
+        _id: 4,
         ...copy,
         arrival_date: new Date(newBook.arrival_date),
       };
@@ -109,12 +109,9 @@ describe('BooksService', () => {
 
     it('유효성 검사', async () => {
       copy.sold_stock = -1;
-      const ressult = await service.createBook(copy);
-      const expectedResult = {
-        ...newBook,
-        arrival_date: new Date(newBook.arrival_date),
-      };
-      expect(ressult).toEqual(expectedResult);
+      await expect(service.createBook(copy)).rejects.toThrow(
+        mongoose.Error.ValidationError,
+      );
     });
   });
 });
