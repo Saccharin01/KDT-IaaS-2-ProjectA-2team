@@ -12,7 +12,7 @@ export const bookArrayData: BookDto[] = [
     introduce: 'A novel set in the Jazz Age on Long Island.',
     remain_stock: 100,
     sold_stock: 0,
-    arrival_date: new Date('2024-07-23T00:00:00Z'),
+    arrival_date: '2024-07-23T00:00:00Z',
     hashtags: 'init',
   },
   {
@@ -26,7 +26,7 @@ export const bookArrayData: BookDto[] = [
     introduce: 'A novel about a dystopian future under totalitarian rule.',
     remain_stock: 50,
     sold_stock: 0,
-    arrival_date: new Date('2024-07-23T00:00:00Z'),
+    arrival_date: '2024-07-23T00:00:00Z',
     hashtags: 'bye',
   },
   {
@@ -41,11 +41,11 @@ export const bookArrayData: BookDto[] = [
     introduce: 'A novel about racial injustice in the Deep South.',
     remain_stock: 200,
     sold_stock: 0,
-    arrival_date: new Date('2024-07-23T00:00:00Z'),
+    arrival_date: '2024-07-23T00:00:00Z',
   },
 ];
 
-export const updateBoook: BookDto = {
+export const updateBook: BookDto = {
   _id: 3,
   title: 'Update',
   author: 'Update',
@@ -57,5 +57,20 @@ export const updateBoook: BookDto = {
   introduce: 'A novel about racial injustice in the Deep South.',
   remain_stock: 200,
   sold_stock: 0,
-  arrival_date: new Date('2024-07-23T00:00:00Z'),
+  arrival_date: '2024-07-23T00:00:00Z',
+};
+
+export const newBook: BookDto = {
+  _id: 4,
+  title: 'Create',
+  author: 'Create',
+  price: 12.99,
+  genre: 'Southern Gothic',
+  hashtags: '#안녕',
+  publisher: 'J.B. Lippincott & Co.',
+  stock_quantity: 200,
+  introduce: 'A novel about racial injustice in the Deep South.',
+  remain_stock: 200,
+  sold_stock: 0,
+  arrival_date: '2024-07-23T00:00:00Z',
 };
