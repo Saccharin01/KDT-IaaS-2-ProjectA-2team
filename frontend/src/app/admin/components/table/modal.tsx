@@ -11,8 +11,8 @@ interface ModalProps<T> {
   onSave: (updatedData: T) => void;
   keys: (keyof T)[]; // T의 키 목록
   fieldTypes: IFieldType; // 필드 타입 정보
-  crud: TableCRUD
-  dataController: DataController
+  crud: TableCRUD;
+  dataController: DataController;
 }
 
 export function ModalComponent<T>({
@@ -23,7 +23,7 @@ export function ModalComponent<T>({
   keys,
   fieldTypes,
   crud,
-  dataController
+  dataController,
 }: ModalProps<T>) {
   const [formData, setFormData] = useState<T | null>(data);
 
@@ -49,7 +49,7 @@ export function ModalComponent<T>({
   }, [data, keys]);
 
   useEffect(() => {
-    switch(crud){
+    switch (crud) {
       case "create":
         setTitle("New Data");
         break;
@@ -60,11 +60,12 @@ export function ModalComponent<T>({
         setTitle("none");
         break;
     }
-  }, [crud])
+  }, [crud]);
 
   //* 데이터가 완성되어 있지 않거나 || open 상태가 아닐 때
   if (!isOpen || !formData) return null;
 
+  //* 각 input창 이벤트
   const handleChange = (key: keyof T, value: any) => {
     //* 특정 키 값 업데이트
     //! key가 새로운 키면, 프로퍼티가 추가된다
@@ -81,6 +82,7 @@ export function ModalComponent<T>({
     }
   };
 
+  //* 각 필드의 데이터 유효성 검사
   const validate = (): boolean => {
     const newErrors: Record<string, string> = {};
 
@@ -108,12 +110,12 @@ export function ModalComponent<T>({
           if (typeof value !== "string") {
             newErrors[key as string] = "Must be a string";
           } else {
+            //* 빈 문자열이거나 날짜 형식이 yyyy-mm-dd여야 한다.
             const dateTimeRegex =
-              /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])[ T]([01]\d|2[0-3]):([0-5]\d)$/;
+              /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$|^$/;
             const result = dateTimeRegex.test(value);
             if (result === false) {
-              newErrors[key as string] =
-                "Must be a Date : YYYY-MM-DDTHH:mm or YYYY-MM-DD HH:mm";
+              newErrors[key as string] = "Must be a Date : YYYY-MM-DD";
             }
           }
         }
@@ -127,14 +129,15 @@ export function ModalComponent<T>({
     return Object.keys(newErrors).length === 0;
   };
 
+  //* 서버에 해당 데이터 보내기
   const sendData = () => {
-    switch(crud){
+    switch (crud) {
       case "create":
         return dataController.PostMethod(formData);
       case "update":
         return dataController.PutMethod(formData);
     }
-  }
+  };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
@@ -142,25 +145,33 @@ export function ModalComponent<T>({
         <h2 className="text-xl font-bold mb-4">{title}</h2>
         <div className="space-y-4">
           {Object.entries(formData).map(([key, value]) => {
-            return ( fieldTypes[key] !== "none" && fieldTypes[key] !== undefined ) && (
-            <div key={key}>
-              <div className="grid grid-cols-2 items-center">
-                <label className="font-semibold">{key}</label>
-                <input
-                  title="input"
-                  className="border p-1 "
-                  type="text"
-                  value={value as any}
-                  onChange={(e) => handleChange(key as keyof T, e.target.value)}
-                />
-              </div>
-              <div>
-              {errors[key as string] && (
-                <span className="text-red-500 text-sm mt-1">{errors[key as string]}</span>
-              )}
-              </div>
-            </div>
-          )})}
+            return (
+              fieldTypes[key] !== "none" &&
+              fieldTypes[key] !== undefined && (
+                <div key={key}>
+                  <div className="grid grid-cols-2 items-center">
+                    <label className="font-semibold">{key}</label>
+                    <input
+                      title="input"
+                      className="border p-1 "
+                      type="text"
+                      value={value as any}
+                      onChange={(e) =>
+                        handleChange(key as keyof T, e.target.value)
+                      }
+                    />
+                  </div>
+                  <div>
+                    {errors[key as string] && (
+                      <span className="text-red-500 text-sm mt-1">
+                        {errors[key as string]}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              )
+            );
+          })}
         </div>
         <div className="mt-4 flex justify-end space-x-4">
           <button onClick={onClose} className="border p-2 bg-gray-200 rounded">
