@@ -45,4 +45,25 @@ export class ProxyService {
     );
     return response.data;
   }
+
+  //* PUT 요청을 처리하는 메서드
+  async proxyPutRequest(
+    url: string,
+    data: any,
+    headers: Record<string, string>,
+  ) {
+    const response = await firstValueFrom(
+      this.httpService.put(url, data, { headers }).pipe(
+        //* 에러처리
+        catchError((error: AxiosError) => {
+          //this.logger.error(error.response.data);
+          throw new HttpException(
+            error.response?.data || 'An error happened!',
+            error.response?.status || HttpStatus.INTERNAL_SERVER_ERROR,
+          );
+        }),
+      ),
+    );
+    return response.data;
+  }
 }

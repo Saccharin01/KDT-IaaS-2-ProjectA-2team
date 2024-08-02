@@ -17,10 +17,7 @@ export class Book {
   @Prop({
     required: true,
     //* 음수 금지
-    validate: {
-      validator: (value: number) => value >= 0,
-      message: "Stock must be a non-negative number.",
-    },
+    min: 0,
   })
   price: number;
 
@@ -38,10 +35,7 @@ export class Book {
 
   @Prop({
     required: true,
-    validate: {
-      validator: (value: number) => value >= 0,
-      message: "Stock must be a non-negative number.",
-    },
+    min: 0,
   })
   stock_quantity: number;
 
@@ -50,19 +44,13 @@ export class Book {
 
   @Prop({
     required: true,
-    validate: {
-      validator: (value: number) => value >= 0,
-      message: "Stock must be a non-negative number.",
-    },
+    min: 0,
   })
   remain_stock: number;
 
   @Prop({
     required: true,
-    validate: {
-      validator: (value: number) => value >= 0,
-      message: "Stock must be a non-negative number.",
-    },
+    min: 0,
   })
   sold_stock: number;
 }

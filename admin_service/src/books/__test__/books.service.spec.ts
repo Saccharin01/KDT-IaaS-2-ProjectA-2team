@@ -4,57 +4,16 @@ import { BooksService } from '../books.service';
 import { MongooseModule, getModelToken } from '@nestjs/mongoose';
 import { Book, BookDocument, BookSchema } from '@shared/schemas/book.schema';
 import mongoose, { Model } from 'mongoose';
-import { BookDto } from '@shared/dto/book.dto';
+import { bookArrayData, newBook, updateBook } from './dummybooks.spec';
+import {
+  BadRequestException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 
 describe('BooksService', () => {
   let service: BooksService;
   let mongodb: MongoMemoryServer;
   let bookModel: Model<BookDocument>;
-
-  const bookArrayData: BookDto[] = [
-    {
-      _id: 1,
-      title: 'The Great Gatsby',
-      author: 'F. Scott Fitzgerald',
-      price: 10.99,
-      genre: 'Fiction',
-      publisher: 'Scribner',
-      stock_quantity: 100,
-      introduce: 'A novel set in the Jazz Age on Long Island.',
-      remain_stock: 100,
-      sold_stock: 0,
-      arrival_date: new Date('2024-07-23T00:00:00Z'),
-      hashtags: 'init',
-    },
-    {
-      _id: 2,
-      title: '1984',
-      author: 'George Orwell',
-      price: 8.99,
-      genre: 'Dystopian',
-      publisher: 'Secker & Warburg',
-      stock_quantity: 50,
-      introduce: 'A novel about a dystopian future under totalitarian rule.',
-      remain_stock: 50,
-      sold_stock: 0,
-      arrival_date: new Date('2024-07-23T00:00:00Z'),
-      hashtags: 'bye',
-    },
-    {
-      _id: 3,
-      title: 'To Kill a Mockingbird',
-      author: 'Harper Lee',
-      price: 12.99,
-      genre: 'Southern Gothic',
-      hashtags: '#안녕',
-      publisher: 'J.B. Lippincott & Co.',
-      stock_quantity: 200,
-      introduce: 'A novel about racial injustice in the Deep South.',
-      remain_stock: 200,
-      sold_stock: 0,
-      arrival_date: new Date('2024-07-23T00:00:00Z'),
-    },
-  ];
 
   beforeAll(async () => {
     mongodb = await MongoMemoryServer.create();
@@ -86,6 +45,73 @@ describe('BooksService', () => {
   it('데이터 가져오기', async () => {
     const getData = await service.getBooks();
     expect(getData.length).toBe(3);
+
     expect(getData).toEqual(bookArrayData);
+  });
+
+  describe('데이터 업데이트 하기', () => {
+    it('성공적으로 업데이트', async () => {
+      const updateData = {
+        _id: 3,
+        title: 'Update',
+        author: 'Harper Lee',
+        price: 12.99,
+        genre: 'Southern Gothic',
+        hashtags: '#안녕',
+        publisher: 'J.B. Lippincott & Co.',
+        stock_quantity: 200,
+        introduce: 'A novel about racial injustice in the Deep South.',
+        remain_stock: 200,
+        sold_stock: 0,
+        arrival_date: '2024-07-23',
+      };
+
+      const expectedResult = {
+        ...updateData,
+        arrival_date: new Date('2024-07-23'),
+      };
+      const result = await service.updateBook(updateData);
+      expect(result).toEqual(expectedResult);
+    });
+
+    it('없는 _id 업데이트 테스트', async () => {
+      const copy = structuredClone(updateBook);
+      copy._id = 4;
+
+      await expect(service.updateBook(copy)).rejects.toThrow(
+        InternalServerErrorException,
+      );
+    });
+
+    it('데이터 유효성 검사 실패', async () => {
+      const copy = structuredClone(updateBook);
+      copy.sold_stock = -1;
+
+      await expect(service.updateBook(copy)).rejects.toThrow(
+        BadRequestException,
+      );
+    });
+  });
+
+  describe('신규 데이터 저장하기', () => {
+    const copy = structuredClone(newBook);
+    delete copy._id;
+
+    it('성공적으로 업데이트', async () => {
+      const ressult = await service.createBook(copy);
+      const expectedResult = {
+        _id: 4,
+        ...copy,
+        arrival_date: new Date(newBook.arrival_date),
+      };
+      expect(ressult).toEqual(expectedResult);
+    });
+
+    it('유효성 검사', async () => {
+      copy.sold_stock = -1;
+      await expect(service.createBook(copy)).rejects.toThrow(
+        mongoose.Error.ValidationError,
+      );
+    });
   });
 });
