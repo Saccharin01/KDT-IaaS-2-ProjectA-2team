@@ -110,7 +110,7 @@ describe('BooksService', () => {
     it('유효성 검사', async () => {
       copy.sold_stock = -1;
       await expect(service.createBook(copy)).rejects.toThrow(
-        mongoose.Error.ValidationError,
+        BadRequestException,
       );
     });
   });

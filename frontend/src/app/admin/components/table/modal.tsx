@@ -9,7 +9,6 @@ interface ModalProps<T> {
   onClose: () => void;
   data: T | null;
   onSave: (updatedData: T) => void;
-  keys: (keyof T)[]; // T의 키 목록
   fieldTypes: IFieldType; // 필드 타입 정보
   crud: TableCRUD;
   dataController: DataController;
@@ -20,7 +19,6 @@ export function ModalComponent<T>({
   onClose,
   data,
   onSave,
-  keys,
   fieldTypes,
   crud,
   dataController,
@@ -31,7 +29,7 @@ export function ModalComponent<T>({
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const [title, setTitle] = useState<string>();
-
+  const keys = Object.keys(fieldTypes) as (keyof T)[]
   //* 데이터가 변경되었을 때
   //* 변경되었을 때는 row클릭을 기존과 다른곳에 했을 때
   useEffect(() => {
@@ -46,7 +44,7 @@ export function ModalComponent<T>({
       });
       setFormData(emptyData);
     }
-  }, [data, keys]);
+  }, [data]);
 
   useEffect(() => {
     switch (crud) {

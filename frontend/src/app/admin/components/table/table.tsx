@@ -189,7 +189,6 @@ export function TableComponent<T extends ITableHeader, K>({
         onClose={handleModalClose}
         data={selectedData}
         onSave={handleSave}
-        keys={Object.keys(header) as (keyof K)[]}
         fieldTypes={field}
         crud={crud}
         dataController={dataController}
