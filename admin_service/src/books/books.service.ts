@@ -71,16 +71,23 @@ export class BooksService {
     }
 
     const lastBook = await this.bookModel.findOne({}).sort({ _id: -1 }).lean();
-    const newId = lastBook._id + 1;
-
-    const bookModel = await this.bookModel.create({
-      _id: newId,
-      arrival_date: date,
-      ...anotherField,
-    });
+    const newId = lastBook._id ? lastBook._id + 1 : 1;
 
     try {
-      const savedBook = await bookModel.save();
+      //* 객체의 내부에 _doc 속성으로 실제 데이터가 저장
+
+      const savedBook = new this.bookModel({
+        _id: newId,
+        arrival_date: date,
+        ...anotherField,
+      });
+
+      //! _id필드를 따로 지정해줘야한다, 지정안해줄경우 빈 "" 값이 할당되어 에러가 발생한다.
+      savedBook._id = newId;
+
+      await savedBook.validate();
+      await savedBook.save();
+
       return { _id: savedBook._id, ...pick(savedBook, Object.keys(bookDto)) };
     } catch (error) {
       //* 유효성 검사가 실패
