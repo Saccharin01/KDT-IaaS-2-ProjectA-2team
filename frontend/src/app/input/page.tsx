@@ -4,11 +4,11 @@ import React from "react";
 import { useState } from "react";
 
     
-
 const Input:React.FC = ()=>{  //리액트 컴포넌트 함수
 
     // useState의 값을 구조 분해 할당으로 가져오고, useState()을 이용해서 빈 문자열을 setValue에 전달, 해당 과정을 통해 value의 값이 빈 문자열로 초기화
     const [value,setValue] = useState<string>('')
+    const [response, setResponse] = useState<{response : string}[]>([])
 
      // 인풋 창의 값을 핸들링 하는 핼퍼 함수, 타입 명시를 통해 해당 함수가 어떤 값을 가지는지 명시
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>):void => { 
@@ -26,7 +26,7 @@ const Input:React.FC = ()=>{  //리액트 컴포넌트 함수
         //method 의 기본 값은 GET, 이 경우에는 POST 메서드를 사용하기 때문에 POST를 명시
         method:"POST",
         // body 에 setValue 함수를 이용해서 할당 된 value 값을 직렬화한 뒤 할당
-        body:JSON.stringify(value),
+        body:JSON.stringify({data : value}),
         // 요청 헤더 (Request Header)에 전송되는 데이터의 형식을 지정, 이 경우에는 application/json으로 명시
         headers : {
         'Content-Type' : "application/json"
@@ -48,9 +48,20 @@ const Input:React.FC = ()=>{  //리액트 컴포넌트 함수
     // 마찬가지로, .then으로 연결된 함수의 행동이 끝난 다음 실행 될 함수를 선언
     // 탬플릿 리터럴(백틱 === ``)을 이용해서 received : 라는 문자열 다음, 매개변수로 들어온 data 를 집어넣어줌
     .then((data)=>{
-        console.log(`received : ${data}`)
+        console.log(data)
+
+        console.dir(`result!!!! : ${data}`)
+        
+        setResponse(data)
     })
 }
+
+    const keyDown = (e : React.KeyboardEvent<HTMLDivElement>) : void => {
+        if(e.key == "Enter"){
+            ClickHandler()
+        }
+    }
+
 
     // 위의 함수와 동일한 방식이지만, async와 await 문법을 이용해서 조금 더 직관적으로 변경한 함수
     const ClickHandler2 = async ()=>{
@@ -85,7 +96,7 @@ const Input:React.FC = ()=>{  //리액트 컴포넌트 함수
 
   return(
     
-    <div>
+    <div onKeyDown={keyDown}>
         <input type="text" placeholder="Hello,world!" className="border-2 mb-7" onChange={handleInputChange}></input>
         
         <div className="
@@ -93,7 +104,11 @@ const Input:React.FC = ()=>{  //리액트 컴포넌트 함수
             bg-red-400 h-8 w-20 flex flex-col items-center cursor-pointer hover:bg-red-800"
             onClick={ClickHandler}
             >button</div>
-        <div>result section</div>
+        <div>result section
+            <ul>
+            {response.map((element, index) => <li key={index}>{element.response}</li> )}
+            </ul>
+        </div>
 
 
 
