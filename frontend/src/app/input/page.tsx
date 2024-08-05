@@ -39,6 +39,28 @@ const Input:React.FC = ()=>{
         console.log(`received : ${data}`)
     })
 }
+    const ClickHandler2 = async ()=>{
+        try {
+            const fetching = await fetch("http://localhost:3001/input",{
+            method:"POST",
+            body:value,
+            headers : {
+            'Content-Type' : "text/plain"
+            }
+        })
+        if(fetching.ok){
+            const data = await fetching.json()
+            console.log("submit success")
+            return data
+        } else {
+            console.log("Submit Fail!!!!")
+        }
+                    
+        } catch (error) {
+            console.log(error)
+        }
+
+}
 
 
 
@@ -47,6 +69,7 @@ const Input:React.FC = ()=>{
     
     <div>
         <input type="text" placeholder="Hello,world!" className="border-2 mb-7" onChange={handleInputChange}></input>
+        
         <div className="
             border-2 
             bg-red-400 h-8 w-20 flex flex-col items-center cursor-pointer hover:bg-red-800"
