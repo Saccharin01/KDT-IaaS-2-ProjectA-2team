@@ -6,7 +6,7 @@ export type InputDocument = Input & Document;
 @Schema()
 export class Input {
   @Prop({ required: true })
-  input: string;
+  name: string;
 }
 
 export const InputSchema = SchemaFactory.createForClass(Input);
