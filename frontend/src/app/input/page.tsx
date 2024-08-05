@@ -105,9 +105,9 @@ const Input:React.FC = ()=>{  //리액트 컴포넌트 함수
             onClick={ClickHandler}
             >button</div>
         <div>result section
-            <ul>
+            {response.length > 0 && (<ul>
             {response.map((element, index) => <li key={index}>{element.response}</li> )}
-            </ul>
+            </ul>)}
         </div>
 
 
