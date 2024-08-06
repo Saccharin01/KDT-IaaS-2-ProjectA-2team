@@ -1,6 +1,5 @@
 import { InjectModel } from "@nestjs/mongoose";
-import {Injectable,Inject} from "@nestjs/common"
-import { DataBaseSetting } from "../../shared/dataBaseSetting";
+import {Injectable} from "@nestjs/common"
 import { Model } from "mongoose";
 import {Input, InputDocument} from "@shared/input.schema"
 
@@ -14,9 +13,15 @@ export class AppService {
     return 'Hello World!';
   }
   async findAllData():Promise<{response : string[]}>{
-    const data = this.TestModel.find()
-
-    return 
+    try {
+      const data = await this.TestModel.find().exec()
+      const result = data.map((element)=>element.toObject().name)
+      return {response : result}
+      
+    } catch (err) {
+      console.error('Error fetching Fail on Service :', err);
+      throw err; 
+    }
   }
 
 
