@@ -1,7 +1,5 @@
 'use client' // 클라이언트에서 사용하는 컴포넌트 라는 것을 명시
-import React, { ReactEventHandler, useEffect } from "react";
-import { useState } from "react";
-
+import React, { useState, useEffect } from "react";
     
 const InputComponent:React.FC = ()=>{
   
@@ -32,12 +30,10 @@ useEffect(() => {
     console.log("Updated data:", data);
   }, [data]);
 
-
-const Eventhandling = ()=>{}
-
 const changeEventHandle = (e : React.ChangeEvent<HTMLInputElement>) : void=>{
   const filterdData = data.filter((element)=>element.includes(e.target.value))
   setInputValue(filterdData)
+  console.log(inputValue)
 }
 return(
 
@@ -49,13 +45,15 @@ return(
         bg-red-400 h-8 w-20 flex flex-col items-center cursor-pointer hover:bg-red-800"
         >button</div>
     <div>
-    <h1>result section</h1>
-    <ul>
-      {inputValue.map((element,index)=>
-        <li key={index}
-        className="hidden">{element}</li>      
-      )}
-    </ul>
+      <h1>result section</h1>
+      <ul>
+        {inputValue.length>0 &&(
+          inputValue.map((element,index)=>
+          <li key={index}>{element}</li>
+            )
+          )
+        }
+      </ul>
     </div>
   </div>
 )
