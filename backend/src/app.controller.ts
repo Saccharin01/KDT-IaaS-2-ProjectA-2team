@@ -10,6 +10,11 @@ export class AppController {
     return this.appService.getHello();
   }
 
+  @Get('/input')
+  findAllData(){}
+
+
+
   @Post('/input')
   receivePostRequest(@Body() body : { data : string }){
     const {data} = body
