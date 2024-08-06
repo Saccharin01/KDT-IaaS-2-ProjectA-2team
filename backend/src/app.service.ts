@@ -13,6 +13,11 @@ export class AppService {
   getHello(): string {
     return 'Hello World!';
   }
+  async findAllData():Promise<{response : string[]}>{
+    const data = this.TestModel.find()
+
+    return 
+  }
 
 
  async receivePostRequest(parsedData : string):Promise<{response : string}[]> {

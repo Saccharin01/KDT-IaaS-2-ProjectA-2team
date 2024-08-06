@@ -4,7 +4,7 @@ import { useState } from "react";
 
     
 const InputComponent:React.FC = ()=>{
- const [data,setData] = useState([]) // 어떤 데이터를?
+ const [data,setData] = useState<{response : string[]}>([]) // 어떤 데이터를?
  useEffect( () => {
   fetch("http://localhost:3001/input") //엔트리 포인트 Get /Input
   .then((res)=>{

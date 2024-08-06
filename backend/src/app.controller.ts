@@ -11,7 +11,9 @@ export class AppController {
   }
 
   @Get('/input')
-  findAllData(){}
+  findAllData(){
+    return this.appService.findAllData();
+  }
 
 
 
