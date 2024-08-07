@@ -1,12 +1,12 @@
 import {
-  IBudge,
+  IBudget,
   INickName,
   IPassword,
   IUserId,
 } from '@shared/interface/userData';
 
 export default interface UserDataInterface
-  extends IBudge,
+  extends IBudget,
     INickName,
     IPassword,
     IUserId {}
