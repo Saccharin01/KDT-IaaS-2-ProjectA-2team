@@ -37,19 +37,24 @@ const LogIn: React.FC = () => {
   const ClickEvnet = async () => {
     console.log(inputValue)
     try {
-      const FetchData = await fetch(`http://localhost:3001/login`, {
+      const FetchData = await fetch(`http://localhost:3001/sign_up`, {
         method : "POST",
         body : JSON.stringify(inputValue),
         headers : {'Content-Type' : "application/json"}
-      }) 
-
+      })
+      
       if(!FetchData.ok){
         console.log("Error occured")
         throw new Error()
       }
 
+      const data = await FetchData.json()
+      console.log(data)
+      return data 
+      
+
     } catch (error) {
-      console.error(error)      
+      console.error(`오류 발생 : `,error)      
     }
   }
 
