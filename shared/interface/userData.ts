@@ -7,6 +7,6 @@ export interface IPassword {
 export interface INickName {
   nickname? : string
 }
-export interface IBudge {
+export interface IBudget {
   budget? : number
 }
