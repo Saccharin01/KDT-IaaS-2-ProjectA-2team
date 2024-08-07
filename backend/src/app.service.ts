@@ -59,7 +59,7 @@ export class AppService {
       const validData = {
         userId: userId,
         password: password,
-        nickname: nickname,
+        nickName: nickname,
         budget: Numbudget,
       };
 
