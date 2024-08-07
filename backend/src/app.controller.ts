@@ -1,5 +1,13 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { AppService } from './app.service';
+import UserDataInterface from './interface/userDataInterface';
 
 @Controller()
 export class AppController {
@@ -11,16 +19,27 @@ export class AppController {
   }
 
   @Get('/input')
-  findAllData(){
+  findAllData() {
     return this.appService.findAllData();
   }
 
-
-
   @Post('/input')
-  receivePostRequest(@Body() body : { data : string }){
-    const {data} = body
-    console.log(data)
-    return this.appService.receivePostRequest(data)
+  receivePostRequest(@Body() body: { data: string }) {
+    const { data } = body;
+    console.log(data);
+    return this.appService.receivePostRequest(data);
+  }
+  @Post('/sign_up')
+  async UserDataSubmit(@Body() body: UserDataInterface) {
+    try {
+      await this.appService.userDataInsert(body);
+      return JSON.stringify({message : "weldone!"})
+    } catch (error) {
+      console.error(error);
+      throw new HttpException(
+        'Failed to save user data',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 }
