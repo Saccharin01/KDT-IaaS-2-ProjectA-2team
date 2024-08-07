@@ -1,6 +1,6 @@
 "use client"
 import { useState, useEffect } from "react";
-import IUserData from "./interface/IUserData"
+import IUserData from "./interface/ISignUp"
 import React from "react";
 
 const placeholderMsg = {
