@@ -6,7 +6,7 @@ export type UserDataDocument = UserData & Document;
 @Schema()
 export class UserData {
   @Prop({ required: true })
-  userId: string;
+  user_id: string;
   @Prop({ required: true })
   password: string;
   @Prop()

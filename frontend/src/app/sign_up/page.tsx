@@ -3,9 +3,9 @@ import { useState } from "react";
 import IUserData from "./interface/ISignUp";
 import React from "react";
 
-const placeholderMsg = {
-  id: "아이디를 입력하세요",
-  pw: "비밀번호를 입력하세요",
+const placeholderMsg: { [key: string]: string } = {
+  user_id: "아이디를 입력하세요",
+  password: "비밀번호를 입력하세요",
   nickName: "닉네임을 입력하세요",
   budget: "예산이 어느정도 되시나요",
 };
@@ -16,9 +16,9 @@ const tailwind = {
 
 const LogIn: React.FC = () => {
   const [inputValue, setInputValue] = useState<IUserData>({
-    userId: "",
+    user_id: "",
     password: "",
-    nickname: "",
+    nickName: "",
     budget: 0,
   });
 

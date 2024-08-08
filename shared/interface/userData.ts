@@ -1,11 +1,11 @@
 export interface IUserId {
-  userId : string
+  user_id : string
 }
 export interface IPassword {
   password : string
 }
 export interface INickName {
-  nickname? : string
+  nickName? : string
 }
 export interface IBudget {
   budget? : number

@@ -49,17 +49,18 @@ export class AppService {
   }
 
   async userDataInsert(parsedData: UserDataInterface): Promise<void> {
+    console.log(parsedData)
     try {
-      const { userId, password, nickname, budget } = parsedData;
+      const { user_id, password, nickName, budget } = parsedData;
       const Numbudget = Number(budget);
 
       if (isNaN(Numbudget)) {
         throw new Error('type Error');
       }
       const validData = {
-        userId: userId,
+        user_id: user_id,
         password: password,
-        nickName: nickname,
+        nickName: nickName,
         budget: Numbudget,
       };
 
