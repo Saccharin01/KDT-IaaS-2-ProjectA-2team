@@ -1,7 +1,7 @@
 "use client";
-import { useState } from "react";
-import IUserData from "./interface/ISignUp";
+import useOnchange from "./hooks/useOnchange/useOnchange";
 import React from "react";
+import InputComponent from "./components/InputComponent";
 
 const placeholderMsg: { [key: string]: string } = {
   user_id: "아이디를 입력하세요",
@@ -15,20 +15,7 @@ const tailwind = {
 };
 
 const LogIn: React.FC = () => {
-  const [inputValue, setInputValue] = useState<IUserData>({
-    user_id: "",
-    password: "",
-    nickName: "",
-    budget: 0,
-  });
-
-  const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const { name, value } = e.target;
-    setInputValue(({ ...props }) => ({
-      ...props,
-      [name]: value,
-    }));
-  };
+  const [inputValue, onChangeHandler] = useOnchange();
 
   const ClickEvnet = async () => {
     console.log(inputValue);
@@ -53,18 +40,18 @@ const LogIn: React.FC = () => {
   };
 
   const inputAmount = Object.keys(placeholderMsg);
+
   return (
     <div>
       {inputAmount.map((element, index) => (
-        <div key={index}>
-          <input
-            type="text"
-            placeholder={placeholderMsg[element]}
-            name={element}
-            className={tailwind.button}
-            onChange={onChangeHandler}
-          />
-        </div>
+        <InputComponent
+          type={element === "budget" ? "number" : "text"}
+          key={index}
+          name=""
+          placeholderMsg={inputAmount[element]}
+          onChangeHandler={onChangeHandler}
+          className=""
+        />
       ))}
 
       <button type="button" onClick={ClickEvnet} className={tailwind.button}>
