@@ -1,9 +1,8 @@
 import axios from 'axios';
-import dotenv from 'dotenv';
-dotenv.config();
+import {HTTP} from '../static/HTTP'
 
 const axiosInstance = axios.create({
-  baseURL: process.env.PROXY_SERVICE_HOST || 'http://localhost:3000',
+  baseURL: HTTP.HOST,
   headers: {
     'Content-Type': 'application/json',
   },

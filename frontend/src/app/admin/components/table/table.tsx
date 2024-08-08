@@ -25,7 +25,7 @@ import { DataController } from "./class/DataController";
 declare module "@tanstack/react-table" {
   //allows us to define custom properties for our columns
   interface ColumnMeta<TData extends RowData, TValue> {
-    filterVariant?: "text" | "range" | "select";
+    filterVariant?: "text" | "range" | "select" | "array";
   }
 }
 
@@ -40,6 +40,9 @@ export function TableComponent<T extends ITableHeader, K>({
   field: IFieldType;
   dataController: DataController
 }) {
+
+
+  
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
@@ -65,6 +68,7 @@ export function TableComponent<T extends ITableHeader, K>({
       cell: (info) => info.getValue(),
       //* 필터 설정
       meta: GetFilter(value[1]),
+      filterFn: field[key] === 'string' ? 'includesString' : field[key] ===  'number' ? 'inNumberRange' : field[key] === 'arr_string' ? 'arrIncludes' : 'auto'
     }));
   }
 
@@ -276,7 +280,12 @@ function GetFilter(value: HeaderFilter): any | undefined {
     return { filterVariant: "range" };
   } else if (value === "select") {
     return { filterVariant: "select" };
-  } else return undefined;
+  } else if (value === "text") {
+    return { filterVariant: "text"};
+  } else if (value === "array") {
+    return { filterVariant: "array"};
+  }
+    else return undefined;
 }
 
 //* 동적인 헤더 필터 생성 이해완료 :)
@@ -285,7 +294,7 @@ function Filter({ column }: { column: Column<any, unknown> }) {
 
   const columnFilterValue = column.getFilterValue();
 
-  const sortedUniqueValues = React.useMemo(
+  let sortedUniqueValues = React.useMemo(
     () =>
       filterVariant === "range"
         ? []
@@ -294,6 +303,11 @@ function Filter({ column }: { column: Column<any, unknown> }) {
             .slice(0, 5000),
     [column.getFacetedUniqueValues(), filterVariant]
   );
+
+  if(filterVariant === "array"){
+  const allTags = sortedUniqueValues.flat();
+  sortedUniqueValues = Array.from(new Set(allTags));
+  }
 
   return filterVariant === "range" ? (
     <div>
@@ -345,14 +359,14 @@ function Filter({ column }: { column: Column<any, unknown> }) {
         </option>
       ))}
     </select>
-  ) : (
+  ) : filterVariant === "text" ? (
     <>
       {/* Autocomplete suggestions from faceted values feature */}
-      <datalist id={column.id + "list"}>
+      {/* <datalist id={column.id + "list"}>
         {sortedUniqueValues.map((value: any) => (
           <option value={value} key={value} />
         ))}
-      </datalist>
+      </datalist> */}
       <DebouncedInput
         type="text"
         value={(columnFilterValue ?? "") as string}
@@ -363,7 +377,25 @@ function Filter({ column }: { column: Column<any, unknown> }) {
       />
       <div className="h-1" />
     </>
-  );
+  ) : filterVariant === "array" ? ( // 변경된 부분 시작
+    <select
+      title="select"
+      onChange={(e) => column.setFilterValue(e.target.value)}
+      value={columnFilterValue?.toString()}
+    >
+      <option value="">All</option>
+      {sortedUniqueValues.map((value) => (
+        // dynamically generated select options from faceted values feature
+        <option value={value} key={value}>
+          {value}
+        </option>
+      ))}
+    </select>
+  ) : (
+    <div className="w-36 border shadow rounded">
+
+    </div>
+  )
 }
 
 //* Debounce input

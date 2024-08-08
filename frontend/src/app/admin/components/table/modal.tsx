@@ -29,7 +29,7 @@ export function ModalComponent<T>({
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const [title, setTitle] = useState<string>();
-  const keys = Object.keys(fieldTypes) as (keyof T)[]
+  const keys = Object.keys(fieldTypes) as (keyof T)[];
   //* 데이터가 변경되었을 때
   //* 변경되었을 때는 row클릭을 기존과 다른곳에 했을 때
   useEffect(() => {
@@ -104,6 +104,21 @@ export function ModalComponent<T>({
             newErrors[key as string] = "Must be true or false";
           }
           break;
+        case "arr_string": {
+          if (typeof value !== "string") {
+            newErrors[key as string] = "Must be a string";
+          } else {
+            const regex = /^(?:[^,]+)(?:,[^,]+)*$/;
+            if (!regex.test(value)) {
+              newErrors[key as string] =
+                "Must be a ArrString : 'string,string,string'";
+            } else {
+              const data: string = formData[key] as string;
+              formData[key] = data.split(",") as any; // 쉼표로 구분된 문자열을 배열로 변환
+            }
+          }
+          break;
+        }
         case "date": {
           if (typeof value !== "string") {
             newErrors[key as string] = "Must be a string";
@@ -116,8 +131,8 @@ export function ModalComponent<T>({
               newErrors[key as string] = "Must be a Date : YYYY-MM-DD";
             }
           }
+          break;
         }
-
         default:
           break;
       }

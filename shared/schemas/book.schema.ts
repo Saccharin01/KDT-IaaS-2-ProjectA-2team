@@ -31,7 +31,7 @@ export class Book {
   introduce: string;
 
   @Prop({ required: true })
-  hashtags: string;
+  hashtags: string[];
 
   @Prop({
     required: true,

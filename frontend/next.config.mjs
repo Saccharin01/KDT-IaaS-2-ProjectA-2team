@@ -6,8 +6,10 @@ dotenv.config({
 })
 
 const nextConfig = {
+reactStrictMode: false,
   env: {
-    NEXT_PUBLIC_PROXY_SERVICE_HOST: process.env.PROXY_SERVICE_HOST
+    NEXT_PUBLIC_PROXY_SERVICE_HOST: process.env.PROXY_SERVICE_HOST,
+    SEARCH_ROUTER: process.env.SEARCH_ROUTER
   },
 };
 

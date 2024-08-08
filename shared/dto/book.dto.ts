@@ -7,7 +7,7 @@ export interface BookDto {
   publisher: string;
   stock_quantity: number;
   introduce: string;
-  hashtags: string; 
+  hashtags: string[]; 
   arrival_date: string; 
   remain_stock: number; 
   sold_stock: number; 

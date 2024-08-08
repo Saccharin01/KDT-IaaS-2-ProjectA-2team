@@ -9,6 +9,7 @@ import {
   BadRequestException,
   InternalServerErrorException,
 } from '@nestjs/common';
+import { BookDto } from '@shared/dto/book.dto';
 
 describe('BooksService', () => {
   let service: BooksService;
@@ -51,13 +52,13 @@ describe('BooksService', () => {
 
   describe('데이터 업데이트 하기', () => {
     it('성공적으로 업데이트', async () => {
-      const updateData = {
+      const updateData: BookDto = {
         _id: 3,
         title: 'Update',
         author: 'Harper Lee',
         price: 12.99,
         genre: 'Southern Gothic',
-        hashtags: '#안녕',
+        hashtags: ['#안녕'],
         publisher: 'J.B. Lippincott & Co.',
         stock_quantity: 200,
         introduce: 'A novel about racial injustice in the Deep South.',

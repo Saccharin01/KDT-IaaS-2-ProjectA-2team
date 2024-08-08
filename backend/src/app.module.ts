@@ -1,13 +1,10 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { ProxyModule } from './proxy/proxy.module';
 import { ConfigModule } from '@nestjs/config';
 import { configOptions } from '@shared/config/env.config';
+import { AdminModule } from './proxy-module/admin/admin.module';
+import { SearchModule } from './proxy-module/search/search.module';
 
 @Module({
-  imports: [ProxyModule, ConfigModule.forRoot(configOptions)],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [ConfigModule.forRoot(configOptions), AdminModule, SearchModule],
 })
 export class AppModule {}
