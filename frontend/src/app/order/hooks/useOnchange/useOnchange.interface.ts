@@ -1,5 +1,10 @@
-import {IBudget, INickName, IPassword, IUserId} from "@shared/interface/userData"
+export interface useOnchangeInterface {
+  user_id : string,
+  book_id : string,
+  address : string,
+  price : number,
+  amount : number,
+  order_date : Date
+}
 
-interface useOnchangeInterface extends IBudget, INickName, IPassword, IUserId {}
 
-export default useOnchangeInterface
