@@ -52,41 +52,21 @@ const LogIn: React.FC = () => {
     }
   };
 
-  // 반복 많음. 이걸 다 컴포넌트로 쪼개서 할 수 있지 않을까?
+  const inputAmount = Object.keys(placeholderMsg);
   return (
-    <div onChange={onChangeHandler}>
-      <div>
-        <input
-          type="text"
-          placeholder={placeholderMsg.id}
-          name="userId"
-          className={tailwind.button}
-        />
-      </div>
-      <div>
-        <input
-          type="text"
-          placeholder={placeholderMsg.pw}
-          name="password"
-          className={tailwind.button}
-        />
-      </div>
-      <div>
-        <input
-          type="text"
-          placeholder={placeholderMsg.nickName}
-          name="nickname"
-          className={tailwind.button}
-        />
-      </div>
-      <div>
-        <input
-          type="text"
-          placeholder={placeholderMsg.budget}
-          name="budget"
-          className={tailwind.button}
-        />
-      </div>
+    <div>
+      {inputAmount.map((element, index) => (
+        <div key={index}>
+          <input
+            type="text"
+            placeholder={placeholderMsg[element]}
+            name={element}
+            className={tailwind.button}
+            onChange={onChangeHandler}
+          />
+        </div>
+      ))}
+
       <button type="button" onClick={ClickEvnet} className={tailwind.button}>
         테스트 버튼
       </button>
