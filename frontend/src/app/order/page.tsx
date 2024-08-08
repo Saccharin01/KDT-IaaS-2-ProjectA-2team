@@ -48,8 +48,8 @@ const LogIn: React.FC = () => {
           type={element === "budget" ? "number" : "text"}
           key={index}
           name=""
-          placeholderMsg={inputAmount[element]}
-          onChangeHandler={onChangeHandler}
+          placeholderMsg={placeholderMsg[element]}
+          onChange={onChangeHandler}
           className=""
         />
       ))}
