@@ -1,23 +1,36 @@
-import useOnchangeInterface from "./useOnchange.interface";
+import { useOnchangeInterface } from "./useOnchange.interface";
 import { useState } from "react";
-
 
 function useOnchange() {
   const [inputValue, setInputValue] = useState<useOnchangeInterface>({
-    userId: "",
-    password: "",
-    nickname: "",
-    budget: 0,
+    user_id: "",
+    book_id: "",
+    address: "",
+    price: 0,
+    amount: 0,
+    order_date: new Date(),
   });
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
-    setInputValue(({ ...props }) => ({
-      ...props,
-      [name]: value,
-    }));
+    setInputValue((prevState) => {
+      let parsedValue;
+      if (name === "price" || name === "amount") {
+        parsedValue = parseInt(value);
+      } else if (name === "order_date") {
+        parsedValue = new Date(value);
+      } else {
+        parsedValue = value;
+      }
+
+      return {
+        ...prevState,
+        [name]: parsedValue,
+      };
+    });
   };
-  return [inputValue, onChangeHandler] as const
+
+  return [inputValue, onChangeHandler] as const;
 }
 
 export default useOnchange;
