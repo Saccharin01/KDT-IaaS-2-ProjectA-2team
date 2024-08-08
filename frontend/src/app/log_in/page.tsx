@@ -7,7 +7,6 @@ import { useState } from "react";
 
 
 
-
 interface LogInPageInterface {
   somethingAwesome : string[]
 }
