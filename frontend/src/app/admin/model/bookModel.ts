@@ -9,7 +9,7 @@ export const bookHeader: ITableHeader = {
   genre: ["Genre", "select"],
   publisher: ["Publisher", "select"],
   // introduce: ["Introduce", "text"],
-  hashtags: ["Hashtags", "text"],
+  hashtags: ["Hashtags", "array"],
   stock_quantity: ["Stock Quantity", "range"],
   arrival_date: ["Arrival Date", "text"],
   remain_stock: ["Remain Stock", "range"],
@@ -24,9 +24,10 @@ export const bookField: IFieldType = {
   genre: 'string',
   publisher: 'string',
   introduce: 'string',
-  hashtags: 'string',
+  hashtags: 'arr_string',
   stock_quantity: 'number',
   arrival_date: 'date',
   remain_stock: 'number',
   sold_stock: 'number'
 };
+
