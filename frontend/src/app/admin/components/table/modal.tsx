@@ -40,7 +40,7 @@ export function ModalComponent<T>({
       //* 비어있는 데이터 생성
       const emptyData = {} as T;
       keys.forEach((key) => {
-        emptyData[key] = "" as any; // 빈 데이터 생성 (필요에 따라 타입 수정)
+        emptyData[key] = "" as any;
       });
       setFormData(emptyData);
     }
@@ -114,7 +114,7 @@ export function ModalComponent<T>({
                 "Must be a ArrString : 'string,string,string'";
             } else {
               const data: string = formData[key] as string;
-              formData[key] = data.split(",") as any; // 쉼표로 구분된 문자열을 배열로 변환
+              formData[key] = data.split(",") as any; 
             }
           }
           break;
