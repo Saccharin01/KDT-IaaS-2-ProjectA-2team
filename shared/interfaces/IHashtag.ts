@@ -1,5 +1,5 @@
 interface IHashtag {
-  hashtag? : string
+  hashtag? : string[]
 }
 
 export default IHashtag
