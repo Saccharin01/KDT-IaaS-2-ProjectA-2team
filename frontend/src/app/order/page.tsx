@@ -34,7 +34,10 @@ const OrderSubmit: React.FC = () => {
     payment : ""
   });
 
+
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
+
+    console.log(inputValue)
     const { name, value } = e.target;
     setInputValue((prevState) => {
       let parsedValue;
@@ -54,35 +57,45 @@ const OrderSubmit: React.FC = () => {
   };
 
 
-  axiosInstance.get(HTTP.SEARCH, {
-    params: {
-      ...result,
-      page: page,
-    },
-  });
-
 
   const ClickEvnet = async () => {
     console.log(inputValue);
+  
     try {
-      const FetchData = await fetch(`http://localhost:3000/payments`, {
-        method: "POST",
-        body: JSON.stringify(inputValue),
-        headers: { "Content-Type": "application/json" },
-      });
-
-      if (!FetchData.ok) {
-        console.log("Error occured");
-        throw new Error();
-      }
-
-      const data = await FetchData.json();
-      console.log(data);
-      return data;
+      await axiosInstance.post(HTTP.PAYMENT, inputValue);
+      console.log("요청 성공");
     } catch (error) {
       console.error(`오류 발생 : `, error);
     }
   };
+
+  // axiosInstance.post(HTTP.SEARCH, {
+  //   params: inputValue
+  // });
+
+
+
+  // const ClickEvnet = async () => {
+  //   console.log(inputValue);
+  //   try {
+  //     const FetchData = await fetch(`http://localhost:3000/payments`, {
+  //       method: "POST",
+  //       body: JSON.stringify(inputValue),
+  //       headers: { "Content-Type": "application/json" },
+  //     });
+
+  //     if (!FetchData.ok) {
+  //       console.log("Error occured");
+  //       throw new Error();
+  //     }
+
+  //     const data = await FetchData.json();
+  //     console.log(data);
+  //     return data;
+  //   } catch (error) {
+  //     console.error(`오류 발생 : `, error);
+  //   }
+  // };
 
   const inputAmount = Object.keys(placeholderMsg);
 
