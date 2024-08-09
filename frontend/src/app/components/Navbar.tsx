@@ -1,7 +1,22 @@
+'use client'
+
 import Link from "next/link";
 import SearchBar from "./SearchBar";
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from "react";
 
 export default function Navbar() {
+  
+  const path = usePathname()
+  const [isView, setIsView] = useState<boolean>();
+
+  useEffect(() => {
+    if(path === '/')
+      setIsView(false);
+    else
+      setIsView(true);
+  }, [path])
+
   return (
     <nav>
       <div className="w-screen fixed z-50 bg-white">
@@ -38,7 +53,7 @@ export default function Navbar() {
             </div>
           </div>
           <div className="flex items-center">
-            {/* <SearchBar /> */}
+            { isView && <SearchBar /> }
           </div>
           <div className="flex space-x-4 items-center">
             <Link href="/login" className="text-gray-800 text-sm">
