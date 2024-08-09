@@ -7,7 +7,9 @@ import { HTTP } from "../../../src/static/HTTP";
 import { BookDto } from "@shared/dto/book.dto";
 import axiosInstance from "frontend/src/module/axiosInstance";
 import BookComponent from "./components/BookComponent";
+import axios from "axios";
 
+//TODO : 첫 번쨰 문제 : 빠르게 이동시, useEffect 호출이 안돔
 export default function BookList() {
   const query = useSearchParams();
   const [books, setBooks] = useState<BookDto[]>([]);
@@ -20,6 +22,11 @@ export default function BookList() {
 
   const fetchData = (page: number) => {
     const result = MakeQueryObj(query, page);
+
+    // console.log(
+    //   "PAGE : " + page,
+    //   "QUERY : " + decodeURI(query.toString()) + "DATA LENGTH : " + books.length
+    // );
 
     //! 잘못된 쿼리면 데이터를 불러오지 않는다. 잘못된 접근
     //TODO 잘못된 접근에 대한 처리가 필요. 페이지 이동 or 페이지에서 알려주기
@@ -45,7 +52,15 @@ export default function BookList() {
     }
   };
 
-  useEffect(() => fetchData(page), [page]);
+  //! 쿼리문이 변경되면 자동으로 다시 데이터 받아오게 의존성 배열에 추가.
+  useEffect(() => {
+    //console.log("fetchData 호출 확인: " + decodeURI(query.toString()));
+    const source = axios.CancelToken.source();
+    fetchData(page);
+    return () => {
+      source.cancel();
+    };
+  }, [page, query]);
 
   const lastItemRef = useCallback(
     (node: HTMLDivElement) => {
@@ -64,19 +79,26 @@ export default function BookList() {
     [loading, hasMore]
   );
 
+  //! 호출 확인 완료
   useEffect(() => {
+    //console.log("초기화 호출 확인: " + decodeURI(query.toString()));
+    setLoading(true);
     setBooks([]);
     setHasMore(true);
     setPage(1);
-  }, [query]);
+  }, [query.toString()]);
 
   return (
     <div>
-      {books.map((book, index) => (
-        <div key={index}>
-          <BookComponent {...book} />
-        </div>
-      ))}
+      {books.length === 0 ? (
+        <div>Not Founded Data </div>
+      ) : (
+        books.map((book, index) => (
+          <div key={index}>
+            <BookComponent {...book} />
+          </div>
+        ))
+      )}
       <div ref={lastItemRef} />
       {loading && <p>Loading...</p>}
     </div>
