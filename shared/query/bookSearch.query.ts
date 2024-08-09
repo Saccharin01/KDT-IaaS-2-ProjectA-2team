@@ -1,5 +1,15 @@
 export type SearchType = "title" | "tag";
 
+export enum QUERY_TYPE {
+  TITLE = "title",
+  TAG = "tag",
+}
+
+export enum QUERY_KEY {
+  TYPE = 'type',
+  CONTENT = 'content',
+}
+
 export interface IBookSearchQuery {
   type: SearchType;
   content: string;
@@ -14,19 +24,16 @@ export class BookSearchQuery implements IBookSearchQuery {
 }
 
 export function IsSearchType(type: string): type is SearchType {
-  return type === "title" || type === "tag";
+  return type === QUERY_TYPE.TITLE || type === QUERY_TYPE.TAG;
 }
 
 export function BookSearchQueryFilter(bookSearchQuery: IBookSearchQuery): {
   [key: string]: RegExp;
 } {
-  let filter;
-
-  if (bookSearchQuery.type === "title") {
-    filter = { title: new RegExp(bookSearchQuery.content, "i") };
-  } else if (bookSearchQuery.type === "tag") {
-    filter = { hashtags: new RegExp(bookSearchQuery.content, "i") };
+  switch (bookSearchQuery.type) {
+    case QUERY_TYPE.TITLE:
+      return { title: new RegExp(bookSearchQuery.content, "i") };
+    case QUERY_TYPE.TAG:
+      return { hashtags: new RegExp(bookSearchQuery.content, "i") };
   }
-
-  return filter;
 }
