@@ -35,6 +35,7 @@ export class ProxyController {
     const fullPath = basePath + remainingPath;
 
     const url = this.buildUrl(fullPath, query);
+    console.log(url);
     return this.proxyService.proxyGetRequest(url, headers);
   }
 
@@ -44,13 +45,18 @@ export class ProxyController {
     @Param('basePath') basePath: string,
     @Param() params: Record<string, any>,
     @Query() query: any,
-    @Body() data: unknown,
+    // @Body() data: unknown,
+    @Body() data: any,
     @Headers() headers: Record<string, string>,
   ) {
+    console.log('Post request received');
     const remainingPath = params[0] ? params[0] : '';
     const fullPath = basePath + remainingPath;
 
     const url = this.buildUrl(fullPath, query);
+    console.log('Proxy URL:', url); // URL 확인
+    console.log(111111);
+    console.log(url);
     return this.proxyService.proxyPostRequest(url, data, headers);
   }
 
