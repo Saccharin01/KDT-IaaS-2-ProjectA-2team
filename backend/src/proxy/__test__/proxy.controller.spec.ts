@@ -5,7 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { configOptions } from '@shared/config/env.config';
 import { ConfigService } from '@nestjs/config';
 import nock from 'nock';
-import LoginDTO from '@shared/dto/loginDTO';
+import { LoginDto } from '@shared/dto/login.dto';
 import PaymentDTO from '@shared/dto/paymentDTO';
 import { HttpModule } from '@nestjs/axios';
 
@@ -38,7 +38,7 @@ describe('Proxy Controller Test', () => {
   describe('Auth 요청시 테스트', () => {
     it('Post 요청 시', async () => {
       const result = { success: true };
-      const loginDTO: LoginDTO = { _id: 'test', password: 'test' };
+      const loginDTO: LoginDto = { _id: 'test', password: 'test' };
       const headers = { 'Content-Type': 'application/json' };
       nock(configService.get('AUTH_SERVICE_HOST'))
         .post('/login', JSON.stringify(loginDTO))

@@ -3,7 +3,7 @@ import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { ProxyModule } from '../proxy.module';
 // import { ProxyService } from '../proxy.service';
 import request from 'supertest';
-import LoginDTO from '@shared/dto/loginDTO';
+import { LoginDto } from '@shared/dto/login.dto';
 import nock from 'nock';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { configOptions } from '@shared/config/env.config';
@@ -38,7 +38,7 @@ describe('Proxy Module 통합 테스트', () => {
   });
 
   describe('Auth Url 테스트', () => {
-    const loginDTO: LoginDTO = { _id: 'testuser', password: 'password123' };
+    const loginDTO: LoginDto = { _id: 'testuser', password: 'password123' };
     // const headers = { 'content-Type': 'application/json' };
 
     it('Post Test', async () => {
