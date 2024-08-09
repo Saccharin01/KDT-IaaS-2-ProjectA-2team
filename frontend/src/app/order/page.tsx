@@ -1,4 +1,6 @@
 "use client";
+
+
 // import useOnchange from "./hooks/useOnchange/useOnchange";i
 import React from "react";
 import InputComponent from "./components/InputComponent";
@@ -59,7 +61,10 @@ const OrderSubmit: React.FC = () => {
 
 
   const ClickEvnet = async () => {
+
+    
     console.log(inputValue);
+    console.log(HTTP.PAYMENT)
   
     try {
       await axiosInstance.post(HTTP.PAYMENT, inputValue);
@@ -68,11 +73,6 @@ const OrderSubmit: React.FC = () => {
       console.error(`오류 발생 : `, error);
     }
   };
-
-  // axiosInstance.post(HTTP.SEARCH, {
-  //   params: inputValue
-  // });
-
 
 
   // const ClickEvnet = async () => {
