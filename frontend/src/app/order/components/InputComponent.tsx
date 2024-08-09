@@ -1,8 +1,9 @@
 import React from "react"
 
+
+
 interface InputComponentInterface {
   type : string
-  key : number
   name : string
   placeholderMsg: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void; // (옵션)입력 필드의 값 변경을 처리하는 함수
@@ -14,17 +15,13 @@ interface InputComponentInterface {
  * @returns 랜더링 하는 리액트 엘리먼트 반환
  */
 
-const InputComponent :React.FC<InputComponentInterface> =({type, key, placeholderMsg, onChange, name ,className}) => (
-  <div>
-      <div key={key}>
+const InputComponent :React.FC<InputComponentInterface> =({type, placeholderMsg, onChange, name ,className}) => (
         <input
           type={type}
           placeholder={placeholderMsg}
           name={name}
           onChange={onChange} 
           className={className} />
-      </div>
-  </div>
 )
 
 export default InputComponent
