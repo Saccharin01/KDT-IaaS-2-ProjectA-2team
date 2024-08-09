@@ -9,7 +9,8 @@ const nextConfig = {
 reactStrictMode: false,
   env: {
     NEXT_PUBLIC_PROXY_SERVICE_HOST: process.env.PROXY_SERVICE_HOST,
-    SEARCH_ROUTER: process.env.SEARCH_ROUTER
+    SEARCH_ROUTER: process.env.SEARCH_ROUTER,
+    PAYMENT_ROUTER: process.env.PAYMENT_ROUTER
   },
 };
 
