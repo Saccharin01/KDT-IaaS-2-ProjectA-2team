@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Post, Body, Controller, Get } from '@nestjs/common';
 import { PaymentService } from './payment.service';
 
 @Controller()
@@ -14,4 +14,6 @@ export class PaymentController {
     const data = await this.PaymentService.testgetHello();
     return { result: data };
   }
+  @Post()
+  async testMedtod() {}
 }
