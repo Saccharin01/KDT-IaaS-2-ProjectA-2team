@@ -4,6 +4,7 @@ import { BookDto } from "@shared/dto/book.dto";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { handleTagClick } from "../../func/handleTagClick";
+import { QUERY_TYPE } from "@shared/query/bookSearch.query";
 
 export default function BookComponent({
 ...bockDTO
@@ -30,7 +31,7 @@ export default function BookComponent({
             </p>
             <div className="mt-2 space-x-2">
               {bockDTO.hashtags.map((value: string, index) => (
-                <span key={index} className="px-2 py-1 text-violet-600 border border-violet-600 hover:bg-violet-600 hover:text-white active:bg-indigo-500 focus:outline-none focus:ring rounded" onClick={() => {handleTagClick(value, router)}}>
+                <span key={index} className="px-2 py-1 text-violet-600 border border-violet-600 hover:bg-violet-600 hover:text-white active:bg-indigo-500 focus:outline-none focus:ring rounded" onClick={() => {handleTagClick(QUERY_TYPE.TAG,value, router)}}>
                   {value}
                 </span>
               ))}

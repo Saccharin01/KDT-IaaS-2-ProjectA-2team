@@ -10,7 +10,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { ProxyService } from './proxy.service';
-import LoginDTO from '@shared/dto/loginDTO';
+import { LoginDto } from '@shared/dto/login.dto';
 import PaymentDTO from '@shared/dto/paymentDTO';
 import { ConfigService } from '@nestjs/config';
 
@@ -39,7 +39,7 @@ export class ProxyController {
     @Param('path') path: string,
     @Query() query: any,
     @Body(new ValidationPipe({ forbidNonWhitelisted: true }))
-    data: LoginDTO,
+    data: LoginDto,
     @Headers() headers: Record<string, string>,
   ) {
     const url = this.buildUrl('auth', path, query);

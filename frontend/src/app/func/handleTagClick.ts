@@ -1,12 +1,12 @@
-import { IBookSearchQuery } from "@shared/query/bookSearch.query";
+import { IBookSearchQuery, QUERY_TYPE, SearchType } from "@shared/query/bookSearch.query";
 import { IsStringRecord } from "frontend/func/IsStringRecord";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
-export const handleTagClick = (tag: string, router: AppRouterInstance) => {
+export const handleTagClick = (type: SearchType, content: string, router: AppRouterInstance) => {
   
   let query: IBookSearchQuery = {
-    type: "tag",
-    content: tag,
+    type,
+    content
   };
 
   if (IsStringRecord(query)) {
@@ -14,5 +14,6 @@ export const handleTagClick = (tag: string, router: AppRouterInstance) => {
     router.push(`/books/?${queryString}`);
   } else {
     //TODO: 에러 페이지로 이동을 해야한다.
+    console.log(type, content);
   }
 };

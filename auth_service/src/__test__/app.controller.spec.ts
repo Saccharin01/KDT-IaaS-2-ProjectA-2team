@@ -52,7 +52,11 @@ describe('AppController', () => {
 
   describe('POST login Test', () => {
     it('로그인이 성공했을 때', async () => {
-      const dummyUser = { _id: 'dummy', password: '3333' };
+      const dummyUser = {
+        _id: 'dummy',
+        password: '3333',
+        phone: '010-0000-0000',
+      };
       await service.create(dummyUser);
 
       //const expectValue = jwtService.sign(omit(dummyUser, 'password'));
@@ -64,12 +68,17 @@ describe('AppController', () => {
 
       const decodedToken = jwtService.decode(response.body.access_token);
 
+      expect(response.status).toBe(201);
       expect(decodedToken).toHaveProperty('_id', 'dummy');
       expect(decodedToken).toHaveProperty('iat');
     });
 
     it('로그인이 실패했을 때', async () => {
-      const dummyUser = { _id: 'dummy', password: '3333' };
+      const dummyUser = {
+        _id: 'dummy',
+        password: '3333',
+        phone: '010-0000-000',
+      };
       await service.create(dummyUser);
 
       await request(app.getHttpServer())
@@ -96,7 +105,11 @@ describe('AppController', () => {
     });
 
     it('이미 존재하는 아이디가 있을 때', async () => {
-      const dummyUser = { _id: 'dummy', password: '3333' };
+      const dummyUser = {
+        _id: 'dummy',
+        password: '3333',
+        phone: '010-0000-0000',
+      };
       await service.create(dummyUser);
 
       const response = await request(app.getHttpServer())
@@ -121,7 +134,11 @@ describe('AppController', () => {
     });
 
     it('중복된 아이디가 존재 할 때', async () => {
-      const dummyUser = { _id: 'test', password: '3333' };
+      const dummyUser = {
+        _id: 'test',
+        password: '3333',
+        phone: '010-0000-0000',
+      };
       await service.create(dummyUser);
 
       const response = await request(app.getHttpServer())

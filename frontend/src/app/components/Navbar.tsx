@@ -1,7 +1,24 @@
+"use client";
+
 import Link from "next/link";
 import SearchBar from "./SearchBar";
+import { usePathname } from "next/navigation";
+import { useContext, useEffect, useState } from "react";
+import { ROUTER_PATH } from "frontend/src/static/ROUTER_PATH";
+import { UserContext } from "../context/UserContext";
 
 export default function Navbar() {
+  const path = usePathname();
+  const [isView, setIsView] = useState<boolean>();
+
+  const userContext = useContext(UserContext);
+  const { userInfo, setUserInfo } = userContext;
+
+  useEffect(() => {
+    if (path === "/") setIsView(false);
+    else setIsView(true);
+  }, [path]);
+
   return (
     <nav>
       <div className="w-screen fixed z-50 bg-white">
@@ -12,44 +29,51 @@ export default function Navbar() {
             </h1>
             <div className="hidden lg:flex justify-around space-x-4 gap-10">
               <Link
-                href="/"
+                href={ROUTER_PATH.HOME}
                 className="hover:text-indigo-600 text-gray-700 pl-10"
               >
                 Home
               </Link>
               <Link
-                href="/about"
+                href={ROUTER_PATH.ABOUT}
                 className="hover:text-indigo-600 text-gray-700"
               >
                 About
               </Link>
               <Link
-                href="/service"
+                href={ROUTER_PATH.ADMIN}
                 className="hover:text-indigo-600 text-gray-700"
               >
-                Service
-              </Link>
-              <Link
-                href="/contact"
-                className="hover:text-indigo-600 text-gray-700"
-              >
-                Contact
+                ADMIN
               </Link>
             </div>
           </div>
-          <div className="flex items-center">
-            {/* <SearchBar /> */}
-          </div>
+          <div className="flex items-center">{isView && <SearchBar />}</div>
           <div className="flex space-x-4 items-center">
-            <Link href="/login" className="text-gray-800 text-sm">
-              LOGIN
-            </Link>
-            <Link
-              href="/signup"
-              className="bg-indigo-600 px-4 py-2 rounded text-white hover:bg-indigo-500 text-sm"
-            >
-              SIGNUP
-            </Link>
+            {userInfo ? (
+              <>
+                <h3>{userInfo.id}</h3>
+                <button
+                  title="logout"
+                  onClick={() => {setUserInfo(null)}}
+                  className="bg-indigo-600 px-4 py-2 rounded text-white hover:bg-indigo-500 text-sm"
+                >
+                  logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link href="/login" className="text-gray-800 text-sm">
+                  LOGIN
+                </Link>
+                <Link
+                  href="/signup"
+                  className="bg-indigo-600 px-4 py-2 rounded text-white hover:bg-indigo-500 text-sm"
+                >
+                  SIGNUP
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>

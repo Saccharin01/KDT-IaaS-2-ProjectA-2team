@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import LoginDTO from '@shared/dto/loginDTO';
+import { LoginDto } from '@shared/dto/login.dto';
+import { AccountDto } from '@shared/dto/account.dto';
 import { JwtPayloadDTO } from './auth/dto/JwtPayloadDTO';
 import { omit } from 'lodash';
 import { JwtService } from '@nestjs/jwt';
@@ -15,7 +16,7 @@ export class AppService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async create(userDto: LoginDTO): Promise<boolean> {
+  async create(userDto: AccountDto): Promise<boolean> {
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(userDto.password, salt);
 
@@ -27,6 +28,7 @@ export class AppService {
     const createdUser = new this.userModel({
       _id: userDto._id,
       password: hashedPassword,
+      phone: userDto.phone,
     });
 
     await createdUser.save();
@@ -34,7 +36,7 @@ export class AppService {
     return true;
   }
 
-  makeJWT(user: LoginDTO) {
+  makeJWT(user: LoginDto) {
     const payload: JwtPayloadDTO = omit(user, 'password');
     return {
       access_token: this.jwtService.sign(payload),

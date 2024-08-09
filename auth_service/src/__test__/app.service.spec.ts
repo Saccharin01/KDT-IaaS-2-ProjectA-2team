@@ -49,14 +49,26 @@ describe('AppService', () => {
   });
 
   it('AppService Create Method Test', async () => {
-    const dummyUser = { _id: 'Create_User_Test', password: '3333' };
+    const dummyUser = {
+      _id: 'Create_User_Test',
+      password: '3333',
+      phone: '010-2222-2222',
+    };
 
     expect(await service.create(dummyUser)).toBeTruthy();
   });
 
   it('AppServie Create Method Test : 이미 동일안 id가 존재할 때', async () => {
-    const dummyUser = { _id: 'dummy', password: '3333' };
-    const dummyUser2 = { _id: 'dummy', password: '4444' };
+    const dummyUser = {
+      _id: 'dummy',
+      password: '3333',
+      phone: '010-0000-0000',
+    };
+    const dummyUser2 = {
+      _id: 'dummy',
+      password: '4444',
+      phone: '010-1111-2222',
+    };
 
     expect(await service.create(dummyUser)).toBeTruthy();
     expect(await service.create(dummyUser2)).toBeFalsy();
@@ -70,6 +82,7 @@ describe('AppService', () => {
     const user = {
       _id: 'test@example.com',
       password: 'password',
+      phone: '010-0000-0000',
     };
 
     await service.create(user);
@@ -82,6 +95,7 @@ describe('AppService', () => {
     const user = {
       _id: 'test@example.com',
       password: 'password',
+      phone: '010-0000-0000',
     };
 
     await service.create(user);
