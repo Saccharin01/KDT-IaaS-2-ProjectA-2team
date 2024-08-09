@@ -2,13 +2,15 @@ import { useOnchangeInterface } from "./useOnchange.interface";
 import { useState } from "react";
 
 function useOnchange() {
+
+
   const [inputValue, setInputValue] = useState<useOnchangeInterface>({
     user_id: "",
-    book_id: "",
+    book_id: 0,
     address: "",
     price: 0,
     amount: 0,
-    order_date: new Date(),
+    payment : ""
   });
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
