@@ -60,7 +60,7 @@ export default function BookList() {
     return () => {
       source.cancel();
     };
-  }, [page, query]);
+  }, [page]);
 
   const lastItemRef = useCallback(
     (node: HTMLDivElement) => {
@@ -85,6 +85,10 @@ export default function BookList() {
     setLoading(true);
     setBooks([]);
     setHasMore(true);
+
+    if(page === 1)
+      fetchData(1);
+    
     setPage(1);
   }, [query.toString()]);
 
