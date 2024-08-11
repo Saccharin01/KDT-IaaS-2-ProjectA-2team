@@ -9,6 +9,7 @@ interface ModalProps<T> {
   onClose: () => void;
   data: T | null;
   onSave: (updatedData: T) => void;
+  onAdd: (newData: T) => void;
   fieldTypes: IFieldType; // 필드 타입 정보
   crud: TableCRUD;
   dataController: DataController;
@@ -19,6 +20,7 @@ export function ModalComponent<T>({
   onClose,
   data,
   onSave,
+  onAdd,
   fieldTypes,
   crud,
   dataController,
@@ -73,8 +75,11 @@ export function ModalComponent<T>({
   const handleSave = async () => {
     if (validate()) {
       if (formData) {
-        sendData();
-        onSave(formData);
+        const res = await sendData();
+        if(crud === 'update')
+          onSave(res.data);
+        else if(crud === 'create')
+          onAdd(res.data);
       }
       onClose();
     }
@@ -86,7 +91,7 @@ export function ModalComponent<T>({
 
     keys.forEach((key) => {
       const expectedType = fieldTypes[key as string];
-      const value = formData[key];
+      let value = formData[key];
 
       switch (expectedType) {
         case "string":
@@ -98,6 +103,9 @@ export function ModalComponent<T>({
           if (isNaN(Number(value))) {
             newErrors[key as string] = "Must be a number";
           }
+          else {
+            formData[key] = parseInt(value as string) as any;
+          }
           break;
         case "boolean":
           if (value !== true && value !== false) {
@@ -105,6 +113,10 @@ export function ModalComponent<T>({
           }
           break;
         case "arr_string": {
+          if(Array.isArray(value)){
+            value = value.join() as any;
+          }
+
           if (typeof value !== "string") {
             newErrors[key as string] = "Must be a string";
           } else {
@@ -113,8 +125,8 @@ export function ModalComponent<T>({
               newErrors[key as string] =
                 "Must be a ArrString : 'string,string,string'";
             } else {
-              const data: string = formData[key] as string;
-              formData[key] = data.split(",") as any; 
+              const data: string = value as string;
+              formData[key] = data.split(",") as any;
             }
           }
           break;
@@ -123,12 +135,11 @@ export function ModalComponent<T>({
           if (typeof value !== "string") {
             newErrors[key as string] = "Must be a string";
           } else {
-            //* 빈 문자열이거나 날짜 형식이 yyyy-mm-dd여야 한다.
             const dateTimeRegex =
-              /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$|^$/;
+            /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z)?$/;
             const result = dateTimeRegex.test(value);
             if (result === false) {
-              newErrors[key as string] = "Must be a Date : YYYY-MM-DD";
+              newErrors[key as string] = "Must be a Date : YYYY-MM-DDThh:mm:ss.000Z";
             }
           }
           break;
