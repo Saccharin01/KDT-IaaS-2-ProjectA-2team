@@ -5,5 +5,6 @@ export const ROUTER_PATH = Object.freeze({
   LOGIN: '/login',
   SIGNUP: '/signup',
   ABOUT: '/about',
-  ADMIN: '/admin'
+  ADMIN: '/admin',
+  CHECKOUT: '/checkout'
 });
