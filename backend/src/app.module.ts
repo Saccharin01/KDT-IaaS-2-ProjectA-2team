@@ -4,6 +4,7 @@ import { configOptions } from '@shared/config/env.config';
 import { AdminModule } from './proxy-module/admin/admin.module';
 import { SearchModule } from './proxy-module/search/search.module';
 import { AuthModule } from './proxy-module/auth/auth.module';
+import { PaymentModule } from './proxy-module/payment/payment.module';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { AuthModule } from './proxy-module/auth/auth.module';
     AdminModule,
     SearchModule,
     AuthModule,
+    PaymentModule
   ],
 })
 export class AppModule {}
