@@ -1,7 +1,7 @@
 // app/inventory/page.tsx
 "use client";
 import { ModalComponent } from "./modal";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Column,
   ColumnDef,
@@ -53,6 +53,10 @@ export function TableComponent<T extends ITableHeader, K>({
   //* 행데이터 저장
   const [selectedData, setSelectedData] = useState<K | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    setData(data);
+  },[data])
 
   /**
    * * 테이블의 헤더를 만드는 함수
@@ -122,6 +126,10 @@ export function TableComponent<T extends ITableHeader, K>({
     );
   };
 
+  const handleAdd = (newData: K) => {
+    setData((prev) => [...prev, newData]);
+  }
+
   const handleAddNew = () => {
     setCrud("create");
     setSelectedData(null);
@@ -176,7 +184,7 @@ export function TableComponent<T extends ITableHeader, K>({
             <tr
               key={row.id}
               onClick={() => handleRowClick(row.original)}
-              className="cursor-pointer hover:bg-gray-200"
+              className="cursor-pointer hover:bg-gray-200 whitespace-nowrap"
             >
               {row.getVisibleCells().map((cell) => (
                 <td className="hover:bg-gray-100" key={cell.id}>
@@ -191,6 +199,7 @@ export function TableComponent<T extends ITableHeader, K>({
       <ModalComponent
         isOpen={isModalOpen}
         onClose={handleModalClose}
+        onAdd={handleAdd}
         data={selectedData}
         onSave={handleSave}
         fieldTypes={field}
@@ -352,9 +361,9 @@ function Filter({ column }: { column: Column<any, unknown> }) {
       value={columnFilterValue?.toString()}
     >
       <option value="">All</option>
-      {sortedUniqueValues.map((value) => (
+      {sortedUniqueValues.map((value, index) => (
         //dynamically generated select options from faceted values feature
-        <option value={value} key={value}>
+        <option value={value} key={index}>
           {value}
         </option>
       ))}
@@ -384,9 +393,9 @@ function Filter({ column }: { column: Column<any, unknown> }) {
       value={columnFilterValue?.toString()}
     >
       <option value="">All</option>
-      {sortedUniqueValues.map((value) => (
+      {sortedUniqueValues.map((value, index) => (
         // dynamically generated select options from faceted values feature
-        <option value={value} key={value}>
+        <option value={value} key={index}>
           {value}
         </option>
       ))}
