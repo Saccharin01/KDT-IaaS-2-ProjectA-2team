@@ -3,16 +3,19 @@
 import Link from "next/link";
 import SearchBar from "./SearchBar";
 import { usePathname } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ROUTER_PATH } from "frontend/src/static/ROUTER_PATH";
-import { UserContext } from "../context/UserContext";
+import { useUserInfo } from "../context/UserContext";
+import { useOrder } from "../context/OrderContext";
 
 export default function Navbar() {
   const path = usePathname();
   const [isView, setIsView] = useState<boolean>();
 
-  const userContext = useContext(UserContext);
-  const { userInfo, setUserInfo } = userContext;
+  const { userInfo, setUserInfo } = useUserInfo();
+  const { order } = useOrder();
+
+  const length = order.reduce((arr,cur) => arr + cur.amount,0)
 
   useEffect(() => {
     if (path === "/") setIsView(false);
@@ -41,6 +44,17 @@ export default function Navbar() {
                 About
               </Link>
               <Link
+                href={ROUTER_PATH.CHECKOUT}
+                className="hover:text-indigo-600 text-gray-700 relative"
+              >
+                Checkout
+                {length !== 0 && (
+                  <span className="absolute  bg-red-600 text-red-100 px-2 py-1 text-xs font-extrabold rounded-full -top-3">
+                    {length}+
+                  </span>
+                )}
+              </Link>
+              <Link
                 href={ROUTER_PATH.ADMIN}
                 className="hover:text-indigo-600 text-gray-700"
               >
@@ -55,7 +69,9 @@ export default function Navbar() {
                 <h3>{userInfo.id}</h3>
                 <button
                   title="logout"
-                  onClick={() => {setUserInfo(null)}}
+                  onClick={() => {
+                    setUserInfo(null);
+                  }}
                   className="bg-indigo-600 px-4 py-2 rounded text-white hover:bg-indigo-500 text-sm"
                 >
                   logout
