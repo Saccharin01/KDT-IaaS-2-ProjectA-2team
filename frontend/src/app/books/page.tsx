@@ -19,7 +19,6 @@ export default function BookList() {
   const [loading, setLoading] = useState<boolean>(false);
   const observer = useRef<IntersectionObserver | null>(null);
   const [hasMore, setHasMore] = useState<boolean>(true);
-
   const fetchData = (page: number) => {
     const result = MakeQueryObj(query, page);
 
@@ -52,15 +51,18 @@ export default function BookList() {
     }
   };
 
+  //! 흠 처음 실행됬을 때, 단 한번만 실행하게 하고 싶다.
   //! 쿼리문이 변경되면 자동으로 다시 데이터 받아오게 의존성 배열에 추가.
   useEffect(() => {
     //console.log("fetchData 호출 확인: " + decodeURI(query.toString()));
+    
     const source = axios.CancelToken.source();
     fetchData(page);
     return () => {
-      source.cancel();
+      if(source)
+        source.cancel();
     };
-  }, [page]);
+  }, [page, query]);
 
   const lastItemRef = useCallback(
     (node: HTMLDivElement) => {
@@ -86,11 +88,8 @@ export default function BookList() {
     setBooks([]);
     setHasMore(true);
 
-    if(page === 1)
-      fetchData(1);
-    
     setPage(1);
-  }, [query.toString()]);
+  }, [query]);
 
   return (
     <div>
