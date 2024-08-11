@@ -24,10 +24,10 @@ export function Sidebar() {
   return (
     <div className="flex flex-col items-center gap-6 mt-3"> 
       <div className="text-4xl font-bold mt-5 mb-4">메뉴</div>
-      <div className="shadow-gray-200 shadow-lg rounded-lg">
+      <div className="shadow-gray-200 shadow-lg rounded-lg w-11/12">
       <ButtonComponent name="재고 목록" func={() => {btnEv("stock")}}/>
       </div>
-      <div className="shadow-gray-200 shadow-lg rounded-lg">
+      <div className="shadow-gray-200 shadow-lg rounded-lg w-11/12">
       <ButtonComponent name="주문 목록" func={() => {btnEv("order")}}/>
       </div>
     </div>
