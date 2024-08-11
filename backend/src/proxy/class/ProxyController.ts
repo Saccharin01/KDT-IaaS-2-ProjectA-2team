@@ -24,22 +24,23 @@ export class ProxyController {
   }
 
   //* Get 요청
-  @Get([':basePath*'])
+  @Get([':basePath*',''])
   getProxy(
     @Param('basePath') basePath: string,
     @Param() params: Record<string, any>,
     @Query() query: any,
     @Headers() headers: Record<string, string>,
   ) {
+    const path = basePath ? basePath : '';
     const remainingPath = params[0] ? params[0] : '';
-    const fullPath = basePath + remainingPath;
+    const fullPath = path + remainingPath;
 
     const url = this.buildUrl(fullPath, query);
     return this.proxyService.proxyGetRequest(url, headers);
   }
 
   //* Post 요청
-  @Post([':basePath*'])
+  @Post([':basePath*', ''])
   postProxy(
     @Param('basePath') basePath: string,
     @Param() params: Record<string, any>,
@@ -47,15 +48,16 @@ export class ProxyController {
     @Body() data: unknown,
     @Headers() headers: Record<string, string>,
   ) {
+    const path = basePath ? basePath : '';
     const remainingPath = params[0] ? params[0] : '';
-    const fullPath = basePath + remainingPath;
+    const fullPath = path + remainingPath;
 
     const url = this.buildUrl(fullPath, query);
     return this.proxyService.proxyPostRequest(url, data, headers);
   }
 
   //* Put 요청
-  @Put([':basePath*'])
+  @Put([':basePath*', ''])
   putProxy(
     @Param('basePath') basePath: string,
     @Param() params: Record<string, any>,
@@ -63,8 +65,9 @@ export class ProxyController {
     @Body() data: unknown,
     @Headers() headers: Record<string, string>,
   ) {
+    const path = basePath ? basePath : '';
     const remainingPath = params[0] ? params[0] : '';
-    const fullPath = basePath + remainingPath;
+    const fullPath = path + remainingPath;
 
     const url = this.buildUrl(fullPath, query);
     return this.proxyService.proxyPutRequest(url, data, headers);
