@@ -1,6 +1,6 @@
-'use client'
+"use client";
 
-import { createContext, useState, ReactNode } from "react";
+import { createContext, useState, ReactNode, useContext } from "react";
 
 interface UserInfo {
   id: string;
@@ -22,4 +22,14 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       {children}
     </UserContext.Provider>
   );
+};
+
+export const useUserInfo = () => {
+  const context = useContext(UserContext);
+
+  if (!context) {
+    throw new Error("useUserInfo must be used within an UserProvider");
+  }
+
+  return context;
 };
