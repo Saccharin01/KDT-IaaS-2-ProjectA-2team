@@ -54,7 +54,7 @@
       "id": "service",
       "type": "pickString",
       "description": "Select the service folder",
-      "options": ["backend", "auth_service", "admin_service", "search-service"]
+      "options": ["backend", "auth_service", "admin_service", "search-service", "payment_service"]
     }
   ]
 }
