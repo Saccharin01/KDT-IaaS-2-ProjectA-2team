@@ -1,5 +1,4 @@
 import { PaymentDto } from '@shared/dto/payment.dto';
-import { BookDto } from '@shared/dto/book.dto';
 
 export const dummyPaymentDto: PaymentDto = {
   book_id: 1,
@@ -24,4 +23,4 @@ export const dummyBook = {
   sold_stock: 0,
   arrival_date: new Date(),
   hashtags: ['init'],
-}
+};
