@@ -83,11 +83,9 @@ export default function BookList() {
 
   //! 호출 확인 완료
   useEffect(() => {
-    //console.log("초기화 호출 확인: " + decodeURI(query.toString()));
     setLoading(true);
     setBooks([]);
     setHasMore(true);
-
     setPage(1);
   }, [query]);
 
