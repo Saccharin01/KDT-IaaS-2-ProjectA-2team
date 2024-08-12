@@ -7,12 +7,15 @@ import { handleTagClick } from "../../func/handleTagClick";
 import { QUERY_TYPE } from "@shared/query/bookSearch.query";
 import { useOrder } from "../../context/OrderContext";
 import { ROUTER_PATH } from "frontend/src/static/ROUTER_PATH";
+import path from 'path'
 
 export default function BookComponent({
 ...bookDTO
 }: BookDto) {
   const router = useRouter();
   const {order, addOrder} = useOrder();
+
+  const imgPath = `/books/${bookDTO._id}.jpg`
 
   const addBookInOrder = () => {
     addOrder(bookDTO)
@@ -28,7 +31,7 @@ export default function BookComponent({
       <div className="flex justify-between p-4 border rounded-md shadow-md">
         <div className="flex">
           <Image
-            src="/path/to/your/image.jpg" // 이미지 경로
+            src={imgPath} // 이미지 경로
             alt="Description of the image" // 대체 텍스트
             width={140} // 이미지의 너비
             height={150} // 이미지의 높이

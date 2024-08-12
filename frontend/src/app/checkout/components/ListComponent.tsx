@@ -5,11 +5,13 @@ import { BookOrder } from "../../context/OrderContext";
 interface ItemInfoProps extends Pick<BookOrder, "_id" | "title" | "price" | "amount"> {}
 
 export default function ListItemComponent({ ...itemInfoProps }: ItemInfoProps) {
+   const imgPath = `/books/${itemInfoProps._id}.jpg`
+
   return (
     <div className="w-full flex items-center my-2">
       <div className="overflow-hidden rounded-lg w-16 h-16 bg-gray-50 border border-gray-200 relative">
         <Image
-          src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80"
+          src={imgPath}
           alt=""
           layout="fill"
           objectFit="cover"
