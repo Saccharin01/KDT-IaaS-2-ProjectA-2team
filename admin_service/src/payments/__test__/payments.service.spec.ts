@@ -10,7 +10,10 @@ import {
 import mongoose, { Model } from 'mongoose';
 import { dummyPaymentDto } from './dummyPayment';
 import { PaymentDtoIncludeId } from '@shared/dto/payment.dto';
-import { BadRequestException, InternalServerErrorException } from '@nestjs/common';
+import {
+  BadRequestException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 
 describe('PaymentsService', () => {
   let service: PaymentsService;
@@ -97,19 +100,19 @@ describe('PaymentsService', () => {
       const copy = structuredClone(dummyPaymentDto) as PaymentDtoIncludeId;
 
       const result = await service.createPayment(copy);
-      
+
       const json = await JSON.parse(JSON.stringify(result));
 
       copy._id = result._id.toString();
 
-      expect(json).toEqual(copy)
-    })
+      expect(json).toEqual(copy);
+    });
 
     it('특정 필드가 존재하지 않을 떄', async () => {
       const copy = structuredClone(dummyPaymentDto) as PaymentDtoIncludeId;
       delete copy.address;
 
       expect(service.createPayment(copy)).rejects.toThrow(BadRequestException);
-    })
-  })
+    });
+  });
 });
