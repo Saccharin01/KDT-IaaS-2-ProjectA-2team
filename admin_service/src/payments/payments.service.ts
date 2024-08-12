@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException, BadRequestException,InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Payment, PaymentDocument } from '@shared/schemas/payment.schema';
 import { Model, Types } from 'mongoose';
@@ -17,22 +22,22 @@ export class PaymentsService {
   }
 
   async updatePayment(paymentDto: PaymentDtoIncludeId) {
-    const {_id, date, ...anotherField } = paymentDto;
-    let dateObj: Date;
+    const { _id, date, ...anotherField } = paymentDto;
+    let dateObj: Date | string;
 
     const objectId = new Types.ObjectId(_id);
 
     if (date === '') {
       dateObj = new Date();
     } else {
-      dateObj = new Date(date);
+      dateObj = date;
     }
 
     try {
       const updatedPayment = await this.paymentModel
         .findByIdAndUpdate(
           objectId,
-          { date: date, ...anotherField },
+          { date: dateObj, ...anotherField },
           {
             new: true,
             runValidators: true,
@@ -60,24 +65,23 @@ export class PaymentsService {
 
   async createPayment(paymentDto: PaymentDto) {
     const { date, ...anotherField } = paymentDto;
-    let dateObj: Date;
+    let dateObj: Date | string;
     if (date === '') {
       dateObj = new Date();
     } else {
-      dateObj  = new Date(date);
+      dateObj = date;
     }
 
     try {
       const result = await this.paymentModel.create({
         date: dateObj,
-        ...anotherField
-      })
+        ...anotherField,
+      });
 
       const obj = result.toObject();
       delete obj.__v;
 
       return obj;
-      
     } catch (error) {
       //* 유효성 검사가 실패
       if (error instanceof mongoose.Error.ValidationError) {
