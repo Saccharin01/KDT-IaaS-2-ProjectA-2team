@@ -46,12 +46,6 @@ export class Book {
     required: true,
     min: 0,
   })
-  remain_stock: number;
-
-  @Prop({
-    required: true,
-    min: 0,
-  })
   sold_stock: number;
 }
 

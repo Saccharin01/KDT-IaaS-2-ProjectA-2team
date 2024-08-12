@@ -9,6 +9,5 @@ export interface BookDto {
   introduce: string;
   hashtags: string[]; 
   arrival_date: string; 
-  remain_stock: number; 
   sold_stock: number; 
 }
