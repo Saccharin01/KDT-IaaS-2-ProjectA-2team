@@ -25,7 +25,7 @@ export class PaymentsController {
   ) {
     return this.paymentService.updatePayment(paymentDto);
   }
-  
+
   @Post()
   createBook(
     @Body(new ValidationPipe({ forbidNonWhitelisted: true, whitelist: true }))
