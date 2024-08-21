@@ -1,0 +1,13 @@
+{
+  "$schema": "https://raw.githubusercontent.com/dyatko/arkit/master/schema.json",
+  "components": [
+    {
+        "type": "Component",
+        "patterns": ["**/*.ts", "**/*.tsx"]
+    }
+  ],
+  "excludePatterns": ["node_modules/**", "__test__/**", "__test__/**", "**/*.test.*", "**/*.spec.*", "**/*.d.*"],
+  "output": {
+    "path": "arkit.svg"
+  }
+}
