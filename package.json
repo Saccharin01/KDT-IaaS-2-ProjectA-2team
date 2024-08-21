@@ -19,6 +19,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/js-cookie": "^3.0.6",
+    "arkit": "^1.6.4",
     "lerna": "^8.1.6",
     "tsc-alias": "^1.8.10",
     "tsconfig-paths": "^4.2.0",
