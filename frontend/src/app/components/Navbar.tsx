@@ -8,15 +8,32 @@ import { ROUTER_PATH } from "frontend/src/static/ROUTER_PATH";
 import { useUserInfo } from "../context/UserContext";
 import { useOrder } from "../context/OrderContext";
 
+/**
+ * * 황재민
+ * * Navbar의 역활은 항상 고정적으로 존재해야되는 Component
+ * @returns 
+ */
 export default function Navbar() {
+
+  //* 화면의 루트('/')일 때만 존재, 이 루트경로를 판단하기 위해서 사용한 변수
   const path = usePathname();
+
+  //* path에 따라 boolean 값이 변경되는 역할 => Navbar에 검색페이지를 보여줄것인지 판단하는 리액트훅 
+  //* 조건부 렌더링에 사용된다.
   const [isView, setIsView] = useState<boolean>();
 
+  //* 유저 정보다 담긴 커스텀 훅
+  //* userInfo가 null이 아니면, 로그인이 된 상태다.
   const { userInfo, setUserInfo } = useUserInfo();
+
+  //* 주문 목록 커스텀 훅 => order의 개수를 파악해서 navbar 주문목록알림을 위한 훅
   const { order } = useOrder();
 
+  //* array.reduce => 누산치, amount를 계산해서 총 몇개가 주문목록에 올라가있는지 파악
+  //* 자바스크립트에서의 배열메소드는 코드의 양을 줄이기위한 획기적인 도구다, 꼭 기억하도록 
   const length = order.reduce((arr,cur) => arr + cur.amount,0)
 
+  //* path => 경로를 판단
   useEffect(() => {
     if (path === "/") setIsView(false);
     else setIsView(true);
