@@ -6,3 +6,4 @@
 .env
 *.jpg
 arkit.svg
+package-lock.json
