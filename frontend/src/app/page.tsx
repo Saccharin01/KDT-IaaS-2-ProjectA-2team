@@ -2,8 +2,15 @@ import React from "react";
 import SearchBar from "./components/SearchBar";
 import HashTags from "./components/HashTag";
 
+/**
+ * * 황재민
+ * * 메인페이지
+ * TODO : tags를 우리가 만든 알고리즘에 따라서 동적으로 가져와야 된다.
+ * @returns 
+ */
 export default function Home() {
 
+  //! 현재 상태를 리터럴
   const tags = [
     "#전기",
     "#영어",
