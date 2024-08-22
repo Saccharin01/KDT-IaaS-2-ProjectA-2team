@@ -3,24 +3,38 @@
 import { BookDto } from "@shared/dto/book.dto";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { handleTagClick } from "../../func/handleTagClick";
+import { searchLogic } from "../../func/search_logic";
 import { QUERY_TYPE } from "@shared/query/bookSearch.query";
 import { useOrder } from "../../context/OrderContext";
 import { ROUTER_PATH } from "frontend/src/static/ROUTER_PATH";
-import path from 'path'
 
+/**
+ * * 황재민
+ * * Book 정보에 대한 컴포넌트.
+ * TODO : 동적으로 데이터에 맞게 하고 싶다. 분리 리팩토링 ( 제네릭 ) 
+ * TODO : 데이터에 따라 컴포넌트를 구성한다. (책, 영화, etc ...)
+ * @param param0 
+ * @returns 
+ */
 export default function BookComponent({
 ...bookDTO
 }: BookDto) {
+
+  //* router를 쓰는 이유 
+  //* BookComponent에 Tag클릭에 따른 이동을 위해서 router 
   const router = useRouter();
+
+  //* 장바구니에 해당 책을 추가하기위한 커스텀훅
   const {order, addOrder} = useOrder();
 
   const imgPath = `/books/${bookDTO._id}.jpg`
 
+  //* 책 추가하기 (장바구니)
   const addBookInOrder = () => {
     addOrder(bookDTO)
   }
 
+  //* 바로구매
   const addBookAndMoveOrderPage = () => {
     addBookInOrder();
     router.push(ROUTER_PATH.CHECKOUT);
@@ -45,7 +59,7 @@ export default function BookComponent({
             </p>
             <div className="mt-2 space-x-2">
               {bookDTO.hashtags.map((value: string, index) => (
-                <span key={index} className="px-2 py-1 text-violet-600 border border-violet-600 hover:bg-violet-600 hover:text-white active:bg-indigo-500 focus:outline-none focus:ring rounded" onClick={() => {handleTagClick(QUERY_TYPE.TAG,value, router)}}>
+                <span key={index} className="px-2 py-1 text-violet-600 border border-violet-600 hover:bg-violet-600 hover:text-white active:bg-indigo-500 focus:outline-none focus:ring rounded" onClick={() => {searchLogic(QUERY_TYPE.TAG,value, router)}}>
                   {value}
                 </span>
               ))}
