@@ -7,6 +7,11 @@ import { AdminMainComponent } from "./components/adminMain";
 import { SideSelectContext } from "./context/SideSelectContext";
 import { SideContextState } from "./interface/types";
 
+/**
+ * * 황재민
+ * * 관리자 페이지
+ * @returns 
+ */
 export default function AdminPage() {
   
   const [selected, setSelected] = useState<SideContextState | null>(null);
