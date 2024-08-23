@@ -5,24 +5,41 @@ import { HTTP } from "frontend/src/static/HTTP";
 import { useContext, useRef } from "react";
 import { LoginDto, LoginResDto } from "@shared/dto/login.dto";
 import { HTTP_RESPONSE } from "frontend/src/static/HTTP_RESPONSE";
-import { UserContext } from "../context/UserContext";
+import { UserContext, useUserInfo } from "../context/UserContext";
 import { useRouter } from "next/navigation";
 import { ROUTER_PATH } from "frontend/src/static/ROUTER_PATH";
 import { AxiosError} from 'axios';
 
+/**
+ * * 홯재민
+ * @returns 
+ */
 export default function Login() {
-  const router = useRouter();
-  const idRef = useRef<HTMLInputElement | null>(null);
-  const passwordRef = useRef<HTMLInputElement | null>(null);
-  const userContext = useContext(UserContext);
-  const { setUserInfo } = userContext;
 
+  //* 페이지 이동을 위한 라우터
+  const router = useRouter();
+
+  //* id 필드
+  const idRef = useRef<HTMLInputElement | null>(null);
+
+  //* password 필드
+  const passwordRef = useRef<HTMLInputElement | null>(null);
+
+  //* 유저 정보를 저장하기위해서 불러운 Context
+  // const userContext = useContext(UserContext);
+  const { setUserInfo } = useUserInfo();
+
+  //* 로그인에 대한 이벤트
   const loginEvent = () => {
+
+    //* 아이디, 페스워드의 value로 json 객체를 만드는과정이라고 할 수 있다.
     const body: LoginDto = {
       _id: idRef.current.value,
       password: passwordRef.current.value,
     };
 
+    //* 서비스(백엔드)로 해당 데이터를 보내준다.
+    //* 서비스에서는 201 Code 로그인 완료, 다른 에러코드 로그인 실패했다라고 처리를 하였다.
     axiosInstance.post(HTTP.AUTH_LOGIN, body).then((res) => {
       if (res.status === HTTP_RESPONSE.POST_OK) {
         const data = res.data as LoginResDto;
@@ -31,6 +48,7 @@ export default function Login() {
           token: data.access_token,
         });
 
+        //* 로그인 상태 저장후 메인 홈으로 이동한다.
         router.push(ROUTER_PATH.HOME)
       } 
     }).catch(
