@@ -1,7 +1,10 @@
 import Image from "next/image";
 import { BookOrder } from "../../context/OrderContext";
 
-//TODO 수량도 추가해야 한다
+/**
+ * * 황재민
+ * * Pick의 역활, 해당 객체의 원하는 키만 가져올 수 있다.
+ */
 interface ItemInfoProps extends Pick<BookOrder, "_id" | "title" | "price" | "amount"> {}
 
 export default function ListItemComponent({ ...itemInfoProps }: ItemInfoProps) {
