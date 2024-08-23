@@ -10,6 +10,11 @@ export enum QUERY_KEY {
   CONTENT = 'content',
 }
 
+/**
+ * * 황재민
+ * * type : 무슨 종류의 검색 (title, tag)
+ * * content : 세부 내용, 검색한 내용 (책 제목, #의학)
+ */
 export interface IBookSearchQuery {
   type: SearchType;
   content: string;
