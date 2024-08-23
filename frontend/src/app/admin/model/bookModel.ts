@@ -2,6 +2,9 @@ import { TableHeader } from "../components/table/interface/ITable";
 import { IFieldType } from "../components/table/interface/IField";
 import { BookDto } from "@shared/dto/book.dto";
 
+//* 황재민
+//! TableHeader랑 Field의 키가 일치해야한다.
+
 export const bookHeader: TableHeader<BookDto> = {
   _id: ["Id", "range"],
   title: ["Title", "text"],
