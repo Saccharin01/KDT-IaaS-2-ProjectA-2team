@@ -15,6 +15,7 @@ import { HTTP_RESPONSE } from "frontend/src/static/HTTP_RESPONSE";
 import Link from "next/link";
 import { AxiosError } from "axios";
 
+//* 각 필드에대한 에러를 알려주기 위한 interface
 interface SignErr {
   id: string;
   phone: string;
@@ -23,13 +24,17 @@ interface SignErr {
 }
 
 export default function SignUp() {
+  //* 회원가입에 성공했을 때, 로그인페이지로 이동하기 위해서 사용한다.
   const router = useRouter();
 
+  //* input 4개에대한 useRef
   const id = useRef<HTMLInputElement | null>(null);
   const phone = useRef<HTMLInputElement | null>(null);
   const password = useRef<HTMLInputElement | null>(null);
   const passwordCheck = useRef<HTMLInputElement | null>(null);
 
+  //* SignErr에 대한 리액트 훅을 만든다.
+  //* 에러 메세지가 객체에 할당될 경후 새로 랜더링을 하여 유저에게 에러메세지를 보여준다.
   const [signErr, setSignErr] = useState<SignErr>({
     id: SIGN_ERR_MSG.NONE,
     phone: SIGN_ERR_MSG.NONE,
@@ -37,12 +42,15 @@ export default function SignUp() {
     passwordCheck: SIGN_ERR_MSG.NONE,
   });
 
-  //* 유효성 검사
+  //* 유효성 검사 화살표함수
   const validate = () => {
+    //* 최종적으로 유효성검사 통과됬는지 boolean
     let isValid = true;
 
+    //* 깊은 복사, 얕은 복사 개념을 알 필요가 있다, 프로그래밍 기초
     const signMsg = structuredClone(signErr);
 
+    //* useRef할당되지 않았을 경우, 개발자 실수 원래는 throw Error하는게 정답이다.
     if (
       !id.current ||
       !phone.current ||
@@ -50,6 +58,7 @@ export default function SignUp() {
       !passwordCheck.current
     )
       return;
+
 
     if (ValidateEmail(id.current.value) === false) {
       signMsg.id = SIGN_ERR_MSG.INVALID_EMAIL;
@@ -78,6 +87,7 @@ export default function SignUp() {
       signMsg.passwordCheck = SIGN_ERR_MSG.NONE;
     }
 
+    //* 유효성 검사가 하나 이상 통과하지 못했다.
     if (isValid === false) {
       setSignErr(signMsg);
       return;
@@ -87,6 +97,7 @@ export default function SignUp() {
   };
 
   //* 상태코드를 통해 회원가입 성공 여부를 판단
+  //* 회원가입을 서비스에게 주는 화살표함수
   const fetchData = () => {
     const body: AccountDto = {
       _id: id.current.value,
@@ -94,13 +105,16 @@ export default function SignUp() {
       phone: phone.current.value,
     };
 
+    //* 서비스에게 해당 Dto정보를 보내준다.
     axiosInstance
       .post(HTTP.AUTH_SIGNUP, body)
       .then((res) => {
+        //* 상태코드가 201이면 회원가입에 성공하였다.
         if (res.status === HTTP_RESPONSE.POST_OK) {
           router.push(ROUTER_PATH.LOGIN);
         }
       })
+      //* 회원가입이 실패했을 때가 보통, 중복된아이디가 있다면 실패를 알린다.
       .catch((err: AxiosError) => {
         if (err.response.status === HTTP_RESPONSE.SIGN_UP_FAIL)
           setSignErr({ ...signErr, id: SIGN_ERR_MSG.DUPLICATE_EMAIL });
