@@ -4,6 +4,7 @@ import { BookDto } from "@shared/dto/book.dto";
 
 //* 황재민
 //! TableHeader랑 Field의 키가 일치해야한다.
+//TODO 한번에 생성할 수 있는 객체나 함수를 구현하면 좋을것같다.
 
 export const bookHeader: TableHeader<BookDto> = {
   _id: ["Id", "range"],
