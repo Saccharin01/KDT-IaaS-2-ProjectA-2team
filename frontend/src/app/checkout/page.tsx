@@ -9,15 +9,30 @@ import axiosInstance from "frontend/src/module/axiosInstance";
 import { HTTP } from "../../static/HTTP";
 import { HTTP_RESPONSE } from "frontend/src/static/HTTP_RESPONSE";
 
-//TODO : 수량 해결해야합니다.
+/**
+ * * 황재민
+ * @returns 
+ */
 export default function PurchaseComponent() {
+
+  //* 주문목록, useOrder() 커스텀훅을 사용한다.
+  // TODO 책 목족 제거에 대한 함수가 추가되면, 가져와야겠지.
   const { order, clearOrder } = useOrder();
+
+  //* 구매하려면 유저 정보를 가져와야된다.
   const { userInfo } = useUserInfo();
+
+  //* 주소
   const addressRef = useRef<HTMLInputElement>();
 
+  //* 주문목록이 비어있으면 주문 목록이 비어있다는 화면이 랜더링된다.
   if (!order || order.length === 0) return <div> 주문 목록이 비어있습니다</div>;
+
+  //* => 주문 목록이 있을 때.
+  //* 누산기, 이 친구의 역할은 총 비용이 얼마인가를 알려주기위한 변수
   const price = order.reduce((acc, cur) => acc + ( cur.price * cur.amount), 0);
 
+  //* 구매함수(이벤트)
   const purchaseFunc = async () => {
     if (userInfo === null) {
       //TODO 로그인 상태가 아니다.
@@ -25,14 +40,16 @@ export default function PurchaseComponent() {
       return;
     }
 
+    //* 현 구매 시간의 날짜를 가져온다
     const date = new Date().toISOString();
 
+    //* Request의 Body를 구성을 한다.
     const arrPurchasDto: PaymentDto[] = order.map((book) => {
       return {
         user_id: userInfo.id,
         book_id: book._id,
         address: addressRef.current.value,
-        payment: "card",
+        payment: "card", // TODO 구매형태에따라 변경 가능성이 있어야한다.
         price: book.price,
         amount: book.amount,
         date
@@ -44,7 +61,8 @@ export default function PurchaseComponent() {
     axiosInstance.post(HTTP.PAYMENT_PURCHASE, arrPurchasDto).catch((err) => {
       //TODO 에러에 대한 처리가 필요. 구매 실패 사용자에게 알림.
     })
-  
+
+    //* 주문목록을 clear
     clearOrder();
   };
 
