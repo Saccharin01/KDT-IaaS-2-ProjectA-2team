@@ -5,11 +5,17 @@ import React from "react";
 import { SideSelectContext } from "../context/SideSelectContext";
 import { ButtonComponent } from "./button";
 
+/**
+ * * 황재민
+ * @returns 
+ */
 export function Sidebar() {
+  //* 버튼의 상태를 변경하기 위해 가지고왔다.
   const context = React.useContext(SideSelectContext);
 
   const { selected, setSelected } = context;
 
+  //* buttonEvent
   const btnEv = (sideSelect: string) => {
     switch(sideSelect){
       case "order":
